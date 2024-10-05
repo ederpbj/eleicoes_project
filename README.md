@@ -209,15 +209,19 @@ from core.models import LocalVotacao
 # Atualizar todos os registros que têm `data_instalacao` igual a None para um valor padrão, como a data atual
 LocalVotacao.objects.filter(data_instalacao__isnull=True).update(data_instalacao=None)
 
+
+# Hoje
+venv\Scripts\activate # ativar
+
 python manage.py makemigrations core
 python manage.py migrate
 
 # limpar o banco
 python manage.py shell 
 
-from django.apps import apps
 
 # Iterar por todas as tabelas do projeto e excluir todos os registros
+from django.apps import apps
 for model in apps.get_models():
     model.objects.all().delete()
 
@@ -226,6 +230,7 @@ python core/import_data.py
 
 # executar na rede local
 python manage.py runserver 0.0.0.0:8000
-python manage.py runserver 192.168.0.15:8000
+python manage.py runserver 192.168.1.40:8000
+
 
 
