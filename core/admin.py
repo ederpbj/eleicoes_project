@@ -93,4 +93,4 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
             worksheet.append(row)
 
         # Salvar o arquivo Excel no diretório do projeto
-        workbook.save("/Users/user/Desktop/temp/local_votacao_data.xlsx")
+        workbook.save(r'H:\Meu Drive\CPRM\Dados_eleições_2024.1_Dj.xlsx')
