@@ -16,7 +16,7 @@ from core.models import LocalVotacao
 
 def importar_dados():
     # Carregar a planilha Excel
-    df = pd.read_excel('/Users/user/dev/Python/Django/eleicoes_project/core/arquivo/Dados_eleições_2024.1_Dj.xlsx', engine='openpyxl')
+    df = pd.read_excel('/Users/user/Library/CloudStorage/GoogleDrive-ciccsesds@gmail.com/Meu Drive/CPRM/Dados_eleições_2024.1.xlsx', engine='openpyxl')
 
     # Mostrar os nomes das colunas para verificar se estão corretos
     print("Colunas encontradas no arquivo Excel:", df.columns)
@@ -39,8 +39,8 @@ def importar_dados():
             horario=row['HORÁRIO'] if pd.notna(row['HORÁRIO']) else '',
             qtde_eleitores=int(row['QTDE_ELEITORES']) if pd.notna(row['QTDE_ELEITORES']) else 0,
             nivel_prioridade=row['NÍVEL DE PRIORIDADE'] if pd.notna(row['NÍVEL DE PRIORIDADE']) else '',
-            local_votacao=row['LOCAL DE VOTAÇÃO'] if pd.notna(row['LOCAL DE VOTAÇÃO']) else '',
-            status_urnas=row['STATUS DAS URNAS'] if pd.notna(row['STATUS DAS URNAS']) else '',
+            local_votacao=row['LOCAL DE VOTAÇÃO '] if pd.notna(row['LOCAL DE VOTAÇÃO ']) else '',
+            status_urnas=row[' STATUS DAS URNAS'] if pd.notna(row[' STATUS DAS URNAS']) else '',
             falta_militar=int(row['FALTA MILITAR']) if pd.notna(row['FALTA MILITAR']) else 0,
         )
     print("Dados importados com sucesso!")

@@ -44,8 +44,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    # Seus outros aplicativos
     "core",
-    "bootstrap4",     # Pacote Bootstrap
+    "bootstrap4",
     "crispy_forms",
     'django_extensions',
 ]

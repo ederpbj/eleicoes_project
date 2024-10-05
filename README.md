@@ -102,7 +102,7 @@ help(forms.CharField) # mostra atributos
 # 13. usando bootstrap no contato.html
 # 14. Criar core/forms.py
 # 15 executar migration
-python manage.py makemigrations
+python manage.py makemigrations core
 python manage.py migrate
 
 
@@ -215,17 +215,30 @@ python manage.py migrate
 # limpar o banco
 python manage.py shell 
 
-from django.apps import apps
 
 # Iterar por todas as tabelas do projeto e excluir todos os registros
+from django.apps import apps
 for model in apps.get_models():
     model.objects.all().delete()
 
 # importar do excel
 python core/import_data.py
 
+python manage.py makemigrations core
+python manage.py migrate
+
+# Registrar o core/admin
+
+# criar super usuário
+python manage.py createsuperuser
+
 # executar na rede local
 python manage.py runserver 0.0.0.0:8000
+
+# mac
 python manage.py runserver 192.168.0.15:8000
+
+# cicc
+python manage.py runserver 192.168.1.16:8000
 
 

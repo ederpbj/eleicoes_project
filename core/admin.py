@@ -1,8 +1,13 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
+
 from .models import LocalVotacao
-from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from openpyxl import Workbook
 import os
+from django.contrib import admin
+
+# Remover o registro manual do User
 
 # Personalizar o título e os textos do Django Admin
 admin.site.site_header = _("Administração das Eleições")
@@ -59,7 +64,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
     # Método para exportar os dados para um arquivo Excel
     def exportar_para_excel(self):
         # Caminho para salvar o arquivo Excel
-        output_path = "/Users/user/Desktop/temp/local_votacao_data.xlsx"
+        output_path = "/Users/user/Library/CloudStorage/GoogleDrive-ciccsesds@gmail.com/Meu Drive/CPRM/Dados_eleições_2024.1_Dj.xlsx"
 
         # Criar a pasta se não existir
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
