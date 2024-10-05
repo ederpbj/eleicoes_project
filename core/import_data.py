@@ -2,13 +2,14 @@ import os
 import sys
 import django
 import pandas as pd
-import datetime
 
 # Adicionar o diretório raiz do projeto ao PYTHONPATH
-sys.path.append('/Users/user/dev/Python/Django/eleicoes_project')
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Configurar o Django no script
+# Definir o módulo de configurações do Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'eleicoes.settings')
+
+# Configurar Django
 django.setup()
 
 # Agora é possível importar o modelo
@@ -16,8 +17,10 @@ from core.models import LocalVotacao
 
 def importar_dados():
     # Carregar a planilha Excel
-    #df = pd.read_excel('/Users/user/dev/Python/Django/eleicoes_project/core/arquivo/Dados_eleições_2024.1_Dj.xlsx', engine='openpyxl')
-    df = pd.read_excel(r'C:\Users\CICC_AT_1249481\Documents\GitHub\eleicoes_project\Dados_eleições_2024.1_Dj.xlsx', engine='openpyxl')
+    df = pd.read_excel(r'H:\Meu Drive\CPRM\Dados_eleições_2024.1.xlsx', engine='openpyxl')
+
+    # Remover espaços dos nomes das colunas
+    df.columns = df.columns.str.strip()
 
     # Mostrar os nomes das colunas para verificar se estão corretos
     print("Colunas encontradas no arquivo Excel:", df.columns)
@@ -36,7 +39,7 @@ def importar_dados():
             endereco=row['ENDEREÇO'] if pd.notna(row['ENDEREÇO']) else '',
             bairro=row['BAIRRO'] if pd.notna(row['BAIRRO']) else '',
             qtde_secoes=int(row['QTDE_SECOES']) if pd.notna(row['QTDE_SECOES']) else 0,
-            data_instalacao=data_instalacao,  # Garantir que não seja nulo
+            data_instalacao=data_instalacao,
             horario=row['HORÁRIO'] if pd.notna(row['HORÁRIO']) else '',
             qtde_eleitores=int(row['QTDE_ELEITORES']) if pd.notna(row['QTDE_ELEITORES']) else 0,
             nivel_prioridade=row['NÍVEL DE PRIORIDADE'] if pd.notna(row['NÍVEL DE PRIORIDADE']) else '',

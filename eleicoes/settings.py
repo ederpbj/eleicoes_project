@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "bootstrap4",     # Pacote Bootstrap
     "crispy_forms",
     'django_extensions',
+    'eleicoes',  # ou o nome da sua aplicação
 ]
 
 MIDDLEWARE = [
