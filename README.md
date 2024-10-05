@@ -228,6 +228,8 @@ for model in apps.get_models():
 # importar do excel
 python core/import_data.py
 
+python manage.py createsuperuser
+
 # executar na rede local
 python manage.py runserver 0.0.0.0:8000
 python manage.py runserver 192.168.1.40:8000
