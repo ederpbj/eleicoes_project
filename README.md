@@ -102,7 +102,7 @@ help(forms.CharField) # mostra atributos
 # 13. usando bootstrap no contato.html
 # 14. Criar core/forms.py
 # 15 executar migration
-python manage.py makemigrations core
+python manage.py makemigrations
 python manage.py migrate
 
 
@@ -209,6 +209,10 @@ from core.models import LocalVotacao
 # Atualizar todos os registros que têm `data_instalacao` igual a None para um valor padrão, como a data atual
 LocalVotacao.objects.filter(data_instalacao__isnull=True).update(data_instalacao=None)
 
+
+# Hoje
+venv\Scripts\activate # ativar
+
 python manage.py makemigrations core
 python manage.py migrate
 
@@ -224,21 +228,9 @@ for model in apps.get_models():
 # importar do excel
 python core/import_data.py
 
-python manage.py makemigrations core
-python manage.py migrate
-
-# Registrar o core/admin
-
-# criar super usuário
-python manage.py createsuperuser
-
 # executar na rede local
 python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 192.168.1.40:8000
 
-# mac
-python manage.py runserver 192.168.0.15:8000
-
-# cicc
-python manage.py runserver 192.168.1.16:8000
 
 
