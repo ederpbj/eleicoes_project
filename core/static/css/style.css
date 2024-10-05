@@ -1,0 +1,113 @@
+.flex-container {
+    display: flex;
+    align-items: center; /* Alinha verticalmente no centro */
+    justify-content: flex-start; /* Garante que o conteúdo comece pela esquerda */
+    gap: 20px; /* Espaçamento entre o ícone e o texto */
+    width: 100%; /* Usa toda a largura do container */
+}
+
+.icon-container {
+    flex-shrink: 0; /* Impede que a imagem seja redimensionada */
+}
+
+.custom-size {
+    width: 100px; /* Ajuste para um tamanho apropriado do ícone */
+    height: auto;
+}
+
+/* Outras classes anteriormente definidas */
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+}
+
+img.transparent {
+    opacity: 0.7;
+    filter: brightness(120%);
+}
+
+.btn-top {
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+}
+
+.container {
+    max-width: 100%;
+    margin: auto;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  label {
+    font-weight: bold;
+  }
+  .btn-block {
+    width: 100%;
+  }
+
+  /* custom.css */
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Centraliza o formulário verticalmente */
+}
+
+.card {
+    width: 100%;
+    max-width: 1500px;
+}
+
+.form-control {
+    width: 100%; /* Garante que todos os inputs tenham a mesma largura */
+    margin-bottom: 15px; /* Espaço entre os campos */
+}
+
+.btn-block {
+    width: 100%; /* Botão ocupa toda a largura do formulário */
+}
+
+/*  novo css*/
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Responsividade - permite rolar horizontalmente se necessário */
+}
+
+.table {
+    width: 100%; /* Garante que a tabela ocupe toda a largura do container */
+    text-align: center; /* Centraliza o conteúdo das células */
+}
+
+.table th, .table td {
+    padding: 15px; /* Espaçamento interno para melhorar a legibilidade */
+    vertical-align: middle; /* Alinha verticalmente o texto no meio da célula */
+}
+
+.table th {
+    font-weight: bold;
+    background-color: #f8f9fa; /* Cor de fundo para o cabeçalho */
+}
+
+.btn {
+    width: 100%;
+    max-width: 250px; /* Define uma largura máxima razoável para os botões */
+    padding: 10px;
+}
+
+.icon-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.custom-size {
+    width: 80px; /* Ajuste para um tamanho apropriado do ícone */
+    height: auto;
+}
+
+h2, h1 {
+    margin-top: 20px;
+}

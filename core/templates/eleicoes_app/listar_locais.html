@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Locais de Votação</title>
+</head>
+<body>
+    <h1>Lista de Locais de Votação</h1>
+    <table border="1">
+        <tr>
+            <th>Código</th>
+            <th>Nome do Local</th>
+            <th>Endereço</th>
+            <th>Bairro</th>
+            <th>Ações</th>
+        </tr>
+        {% for local in locais %}
+        <tr>
+            <td>{{ local.cod }}</td>
+            <td>{{ local.nome_local }}</td>
+            <td>{{ local.endereco }}</td>
+            <td>{{ local.bairro }}</td>
+            <td><a href="{% url 'editar_local' local.id %}">Editar</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
