@@ -231,6 +231,8 @@ python core/import_data.py
 # executar na rede local
 python manage.py runserver 0.0.0.0:8000
 python manage.py runserver 192.168.1.40:8000
+# mac
+python manage.py runserver 192.168.0.15:8000
 
 
 

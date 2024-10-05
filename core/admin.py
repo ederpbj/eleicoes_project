@@ -4,6 +4,10 @@ from django.utils.translation import gettext_lazy as _
 import openpyxl
 from openpyxl import Workbook
 
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 # Personalizar o título e os textos do Django Admin
 admin.site.site_header = _("Administração das Eleições")
 admin.site.site_title = _("Painel Administrativo das Eleições")
@@ -55,42 +59,48 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
 
     # Método para exportar os dados para um arquivo Excel
     def exportar_para_excel(self):
-        # Criar uma nova planilha
-        workbook = Workbook()
-        worksheet = workbook.active
-        worksheet.title = "Locais de Votação"
+        try:
+            # Criar uma nova planilha
+            workbook = Workbook()
+            worksheet = workbook.active
+            worksheet.title = "Locais de Votação"
 
-        # Definir cabeçalhos na primeira linha da planilha
-        headers = [
-            'cod', 'opm', 'zona', 'municipio', 'nome_local', 'endereco', 'bairro',
-            'qtde_secoes', 'data_instalacao', 'horario', 'qtde_eleitores',
-            'nivel_prioridade', 'local_votacao', 'status_urnas', 'falta_militar'
-        ]
-        worksheet.append(headers)
-
-        # Pegar todos os registros do banco de dados
-        locais_votacao = LocalVotacao.objects.all()
-
-        # Adicionar os dados de cada local de votação na planilha
-        for local in locais_votacao:
-            row = [
-                local.cod,
-                local.opm,
-                local.zona,
-                local.municipio,
-                local.nome_local,
-                local.endereco,
-                local.bairro,
-                local.qtde_secoes,
-                local.data_instalacao.strftime("%Y-%m-%d") if local.data_instalacao else "",
-                local.horario,
-                local.qtde_eleitores,
-                local.nivel_prioridade,
-                local.local_votacao,
-                local.status_urnas,
-                local.falta_militar,
+            # Definir cabeçalhos na primeira linha da planilha
+            headers = [
+                'cod', 'opm', 'zona', 'municipio', 'nome_local', 'endereco', 'bairro',
+                'qtde_secoes', 'data_instalacao', 'horario', 'qtde_eleitores',
+                'nivel_prioridade', 'local_votacao', 'status_urnas', 'falta_militar'
             ]
-            worksheet.append(row)
+            worksheet.append(headers)
 
-        # Salvar o arquivo Excel no diretório do projeto
-        workbook.save(r'H:\Meu Drive\CPRM\Dados_eleições_2024.1_Dj.xlsx')
+            # Pegar todos os registros do banco de dados
+            locais_votacao = LocalVotacao.objects.all()
+
+            # Adicionar os dados de cada local de votação na planilha
+            for local in locais_votacao:
+                row = [
+                    local.cod,
+                    local.opm,
+                    local.zona,
+                    local.municipio,
+                    local.nome_local,
+                    local.endereco,
+                    local.bairro,
+                    local.qtde_secoes,
+                    local.data_instalacao.strftime("%Y-%m-%d") if local.data_instalacao else "",
+                    local.horario,
+                    local.qtde_eleitores,
+                    local.nivel_prioridade,
+                    local.local_votacao,
+                    local.status_urnas,
+                    local.falta_militar,
+                ]
+                worksheet.append(row)
+
+            # Salvar o arquivo Excel no diretório do projeto
+            caminho_arquivo = os.path.join(BASE_DIR, 'Dados_eleições_2024.1_Dj.xlsx')
+            workbook.save(caminho_arquivo)
+            print(f"Arquivo salvo com sucesso em: {caminho_arquivo}")
+
+        except Exception as e:
+            print(f"Erro ao salvar o arquivo Excel: {e}")

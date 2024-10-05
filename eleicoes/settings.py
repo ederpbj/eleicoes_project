@@ -13,15 +13,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-__zat#33ri00u^1$vd+&bs$c*gn7jou-9722*v+d^k$&2%_^ja")
+SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False").lower() in ['true', '1', 't']
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS.append('192.168.0.15')
+
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -29,18 +30,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # Seus outros aplicativos
     "core",
     "bootstrap4",
     "crispy_forms",
     "django_extensions",
-    "whitenoise.runserver_nostatic",  # Ajuda com arquivos estáticos
+    "whitenoise.runserver_nostatic",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # Middleware para servir arquivos estáticos no Heroku
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -70,10 +70,9 @@ TEMPLATES = [
 WSGI_APPLICATION = "eleicoes.wsgi.application"
 
 # Database
-# Configuração do banco de dados para Heroku ou desenvolvimento local
 DATABASES = {
     'default': dj_database_url.config(
-        default=f'postgres://{os.getenv("DB_USER", "postgres")}:{os.getenv("DB_PASSWORD", "098098Pg#")}@{os.getenv("DB_HOST", "localhost")}:{os.getenv("DB_PORT", "5432")}/{os.getenv("DB_NAME", "eleicoes2024")}',
+        default=f'postgres://{os.getenv("DB_USER", "postgres")}:{os.getenv("DB_PASSWORD", "")}@{os.getenv("DB_HOST", "localhost")}:{os.getenv("DB_PORT", "5432")}/{os.getenv("DB_NAME", "eleicoes2024")}',
         conn_max_age=600,
         ssl_require=not DEBUG
     )
@@ -106,7 +105,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'core/static')]
 
-# Configuração do WhiteNoise para servir arquivos estáticos em produção
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Media files
@@ -129,8 +127,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'ciccsesds@gmail.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'Cicc@190')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'default_email@example.com')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'default_password')
 
 # Adicionando uma camada de segurança extra
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
