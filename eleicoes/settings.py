@@ -70,12 +70,18 @@ WSGI_APPLICATION = "eleicoes.wsgi.application"
 
 # Database
 # Configuração do banco de dados para Heroku ou desenvolvimento local
+"""
 DATABASES = {
     'default': dj_database_url.config(
         default=f'postgres://{os.getenv("DB_USER", "postgres")}:{os.getenv("DB_PASSWORD", "098098Pg#")}@{os.getenv("DB_HOST", "localhost")}:{os.getenv("DB_PORT", "5432")}/{os.getenv("DB_NAME", "eleicoes2024")}',
         conn_max_age=600,
         ssl_require=not DEBUG
     )
+}
+"""
+
+DATABASES = {
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
 
 # Password validation
