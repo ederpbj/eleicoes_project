@@ -16,7 +16,8 @@ from core.models import LocalVotacao
 
 def importar_dados():
     # Carregar a planilha Excel
-    df = pd.read_excel('/Users/user/dev/Python/Django/eleicoes_project/core/arquivo/Dados_eleições_2024.1_Dj.xlsx', engine='openpyxl')
+    #df = pd.read_excel('/Users/user/dev/Python/Django/eleicoes_project/core/arquivo/Dados_eleições_2024.1_Dj.xlsx', engine='openpyxl')
+    df = pd.read_excel(r'C:\Users\CICC_AT_1249481\Documents\GitHub\eleicoes_project\Dados_eleições_2024.1_Dj.xlsx', engine='openpyxl')
 
     # Mostrar os nomes das colunas para verificar se estão corretos
     print("Colunas encontradas no arquivo Excel:", df.columns)
