@@ -9,8 +9,14 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+import dj_database_url
+from dotenv import load_dotenv
+from pathlib import Path
+
+# Carregar variáveis de ambiente do arquivo .env
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +31,7 @@ SECRET_KEY = "django-insecure-__zat#33ri00u^1$vd+&bs$c*gn7jou-9722*v+d^k$&2%_^ja
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
@@ -37,6 +43,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    "core",
+    "bootstrap4",     # Pacote Bootstrap
+    "crispy_forms",
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +65,7 @@ ROOT_URLCONF = "eleicoes.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, 'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -73,12 +84,25 @@ WSGI_APPLICATION = "eleicoes.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+# Configuração do banco de dados
+if os.getenv('DATABASE_URL'):
+    # Configuração para o Heroku ou outro serviço que use DATABASE_URL
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
     }
-}
+else:
+    # Configuração para desenvolvimento local
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME', 'eleicoes2024'),
+            'USER': os.getenv('DB_USER', 'postgres'),
+            'PASSWORD': os.getenv('DB_PASSWORD', '098098Pg#'),
+            'HOST': os.getenv('DB_HOST', 'localhost'),
+            'PORT': os.getenv('DB_PORT', '5432'),
+        }
+    }
+
 
 
 # Password validation
@@ -103,21 +127,46 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
-
+# Configuração de internacionalização
+LANGUAGE_CODE = 'pt-br'
+TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+# Arquivos estáticos
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATICFILES_DIRS = []
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'core/static')]  # Adicione o diretório estático do seu ap
+
+# Arquivos de mídia
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# outras
+# settings.py
+LOGIN_URL = '/accounts/login/'
+
+# Redirecionar para a página de documentos após o login bem-sucedido
+LOGIN_REDIRECT_URL = '/lista_local/'  # Redireciona para a página de documentos após o login
+LOGOUT_REDIRECT_URL = '/'  # Redireciona para a página inicial após o logout
+# Configuração de e-mail (desenvolvimento)
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+HANDLER403 = 'django.views.defaults.permission_denied'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ciccsesds@gmail.com'
+EMAIL_HOST_PASSWORD = 'Cicc@190'

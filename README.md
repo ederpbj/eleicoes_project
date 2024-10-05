@@ -18,6 +18,7 @@ pip install psycopg2
 pip install psycopg
 pip install django-crispy-forms
 pip install django-bootstrap4
+pip install pandas openpyxl
 
 # 3.1 Criar projeto
 django-admin startproject eleicoes .
@@ -26,6 +27,12 @@ django-admin startproject eleicoes .
 django-admin startapp core
 
 pip freeze > requirements.txt
+
+# 3.3 importar dados
+python manage.py shell
+
+from core.import_data import importar_dados
+importar_dados()
 
 # 4.1 Instalando Postgres
 brew install postgresql
@@ -192,3 +199,33 @@ find . -path "*/migrations/*.pyc"  -delete
 # remove arquivos corrompidos
 find . -name "*.pyc" -exec rm -f {} \;
 find . -name "__pycache__" -exec rm -rf {} \;
+
+
+# Erros
+python manage.py shell
+
+from core.models import LocalVotacao
+
+# Atualizar todos os registros que têm `data_instalacao` igual a None para um valor padrão, como a data atual
+LocalVotacao.objects.filter(data_instalacao__isnull=True).update(data_instalacao=None)
+
+python manage.py makemigrations core
+python manage.py migrate
+
+# limpar o banco
+python manage.py shell 
+
+from django.apps import apps
+
+# Iterar por todas as tabelas do projeto e excluir todos os registros
+for model in apps.get_models():
+    model.objects.all().delete()
+
+# importar do excel
+python core/import_data.py
+
+# executar na rede local
+python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 192.168.0.15:8000
+
+
