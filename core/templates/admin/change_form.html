@@ -1,0 +1,52 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <style>
+        /* Fixar a barra de navegação superior */
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: #fff; /* Fundo branco */
+            border-bottom: 1px solid #ddd; /* Pequeno contorno para separação */
+        }
+
+        /* Ajustar a margem do conteúdo para não ficar oculto pelo cabeçalho fixo */
+        #content {
+            margin-top: 70px; /* Ajuste conforme a altura do cabeçalho */
+        }
+
+        /* Mover botão "Salvar" ao lado do campo de busca */
+        #changelist-search {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .submit-row {
+            display: inline-block;
+            vertical-align: top;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <script>
+        // Script para manter a barra de ferramentas fixa no topo ao rolar a tela
+        document.addEventListener('DOMContentLoaded', function() {
+            const toolbar = document.querySelector('.object-tools');
+            if (toolbar) {
+                toolbar.style.position = 'fixed';
+                toolbar.style.top = '70px'; // Ajuste conforme a margem do cabeçalho
+                toolbar.style.right = '20px';
+                toolbar.style.zIndex = '1000';
+                toolbar.style.backgroundColor = '#fff';
+                toolbar.style.border = '1px solid #ddd';
+                toolbar.style.padding = '5px';
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,8 +1,8 @@
 from .models import LocalVotacao
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-import openpyxl
 from openpyxl import Workbook
+import os
 
 # Personalizar o título e os textos do Django Admin
 admin.site.site_header = _("Administração das Eleições")
@@ -51,10 +51,19 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
         # Gerar o arquivo Excel com todos os dados da tabela LocalVotacao
-        self.exportar_para_excel()
+        try:
+            self.exportar_para_excel()
+        except Exception as e:
+            self.message_user(request, f"Erro ao exportar para Excel: {str(e)}", level='error')
 
     # Método para exportar os dados para um arquivo Excel
     def exportar_para_excel(self):
+        # Caminho para salvar o arquivo Excel
+        output_path = "/Users/user/Desktop/temp/local_votacao_data.xlsx"
+
+        # Criar a pasta se não existir
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
         # Criar uma nova planilha
         workbook = Workbook()
         worksheet = workbook.active
@@ -92,5 +101,5 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
             ]
             worksheet.append(row)
 
-        # Salvar o arquivo Excel no diretório do projeto
-        workbook.save("/Users/user/Desktop/temp/local_votacao_data.xlsx")
+        # Salvar o arquivo Excel no diretório especificado
+        workbook.save(output_path)
