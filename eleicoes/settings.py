@@ -13,20 +13,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    raise ValueError("A SECRET_KEY não está definida. Por favor, configure a variável de ambiente.")
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = os.getenv("DEBUG", "False").lower() in ['true', '1', 't']
-
-#ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-#ALLOWED_HOSTS.append('192.168.0.15')
-
-#ALLOWED_HOSTS = ['.vercel.app', 'https://eleicoes-project.vercel.app/']
-
-ALLOWED_HOSTS = ['https://eleicoes-project.onrender.com', 'localhost']
-
+# Ajuste dos ALLOWED_HOSTS usando uma variável de ambiente
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -77,13 +71,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "eleicoes.wsgi.application"
 
-#import dj_database_url
+# Banco de Dados
 DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL')
     )
 }
-
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -112,8 +105,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'core/static')]
 
-#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -129,17 +120,26 @@ LOGOUT_REDIRECT_URL = '/'
 # Configuração do pacote Crispy Forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# Configuração de e-mail para desenvolvimento
+# Configuração de e-mail
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'default_email@example.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'default_password')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
-# Adicionando uma camada de segurança extra
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = not DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
-X_FRAME_OPTIONS = 'DENY'
+# Segurança extra para produção
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    X_FRAME_OPTIONS = 'DENY'
+
+    # Adiciona políticas de segurança para conteúdo
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_HSTS_SECONDS = 31536000  # Requer HTTPS para 1 ano
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+

@@ -1,1 +1,1 @@
-web: python manage.py
+web: gunicorn eleicoes_project.wsgi:application
