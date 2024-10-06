@@ -57,6 +57,7 @@ cffi @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_229m2
 chardet @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/chardet_1699252638625/work
 charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
 click @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/click_1699239792454/work
+cloudinary==1.41.0
 cloudpickle @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/cloudpickle_1699245402663/work
 colorama @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/colorama_1699282337864/work
 colorcet @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_db11vs0_s8/croot/colorcet_1709758355147/work
@@ -91,6 +92,7 @@ distro @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_b5l
 dj-database-url==2.2.0
 Django==5.1.1
 django-bootstrap4==24.4
+django-cloudinary-storage==0.3.0
 django-crispy-forms==2.3
 django-extensions==3.2.3
 docstring-to-markdown @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/docstring-to-markdown_1699248259185/work
@@ -230,6 +232,8 @@ prompt-toolkit @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T
 Protego @ file:///tmp/build/80754af9/protego_1598657180827/work
 protobuf==3.20.3
 psutil @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/psutil_1699246686105/work
+psycopg2==2.9.9
+psycopg2-binary==2.9.9
 ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
 pure-eval @ file:///opt/conda/conda-bld/pure_eval_1646925070566/work
 py-cpuinfo @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/py-cpuinfo_1699249517716/work
