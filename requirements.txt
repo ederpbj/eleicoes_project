@@ -21,3 +21,5 @@ setuptools==69.5.1
 sqlparse==0.5.1
 wheel==0.43.0
 whitenoise==6.7.0
+python-dotenv
+
