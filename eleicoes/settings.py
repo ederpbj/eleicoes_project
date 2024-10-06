@@ -15,14 +15,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
 
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = os.getenv("DEBUG", "False").lower() in ['true', '1', 't']
-DEBUG = False
 
 #ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 #ALLOWED_HOSTS.append('192.168.0.15')
 
-ALLOWED_HOSTS = ['.vercel.app', 'https://eleicoes-project.vercel.app/']
+#ALLOWED_HOSTS = ['.vercel.app', 'https://eleicoes-project.vercel.app/']
+
+ALLOWED_HOSTS = ['https://eleicoes-project.onrender.com', 'localhost']
 
 
 # Application definition
@@ -83,6 +86,15 @@ DATABASES = {
     )
 }
 
+#import dj_database_url
+"""
+DATABASES = {
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+}
+
+"""
+
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -141,17 +153,3 @@ SECURE_SSL_REDIRECT = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 X_FRAME_OPTIONS = 'DENY'
-
-
-# vercel
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'seu_cloud_name',
-    'API_KEY': 'sua_api_key',
-    'API_SECRET': 'seu_api_secret'
-}
-
-# vercel
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
-
-
