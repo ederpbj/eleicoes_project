@@ -16,10 +16,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False").lower() in ['true', '1', 't']
+#DEBUG = os.getenv("DEBUG", "False").lower() in ['true', '1', 't']
+DEBUG = False
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-ALLOWED_HOSTS.append('192.168.0.15')
+#ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+#ALLOWED_HOSTS.append('192.168.0.15')
+
+ALLOWED_HOSTS = ['.vercel.app', 'https://eleicoes-project.vercel.app/']
 
 
 # Application definition
@@ -48,6 +51,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 ROOT_URLCONF = "eleicoes.urls"
 
@@ -105,7 +110,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'core/static')]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Media files
 MEDIA_URL = '/media/'
@@ -136,3 +141,17 @@ SECURE_SSL_REDIRECT = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 X_FRAME_OPTIONS = 'DENY'
+
+
+# vercel
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'seu_cloud_name',
+    'API_KEY': 'sua_api_key',
+    'API_SECRET': 'seu_api_secret'
+}
+
+# vercel
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+
+
