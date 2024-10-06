@@ -77,22 +77,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "eleicoes.wsgi.application"
 
-# Database
+#import dj_database_url
 DATABASES = {
     'default': dj_database_url.config(
-        default=f'postgres://{os.getenv("DB_USER", "postgres")}:{os.getenv("DB_PASSWORD", "")}@{os.getenv("DB_HOST", "localhost")}:{os.getenv("DB_PORT", "5432")}/{os.getenv("DB_NAME", "eleicoes2024")}',
-        conn_max_age=600,
-        ssl_require=not DEBUG
+        default=os.getenv('DATABASE_URL')
     )
 }
-
-#import dj_database_url
-"""
-DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
-}
-
-"""
 
 
 # Password validation
