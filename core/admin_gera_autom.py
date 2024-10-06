@@ -6,10 +6,8 @@ from openpyxl import Workbook
 
 import os
 from pathlib import Path
-from django.http import HttpResponse
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 # Personalizar o título e os textos do Django Admin
 admin.site.site_header = _("Administração das Eleições")
 admin.site.site_title = _("Painel Administrativo das Eleições")
@@ -51,11 +49,16 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
     # Número de registros exibidos por página
     list_per_page = 20
 
-    # Definir uma ação personalizada para exportar os dados para Excel
-    actions = ["exportar_para_excel"]
+    # Método sobrescrito para salvar no banco e também gerar o arquivo Excel
+    def save_model(self, request, obj, form, change):
+        # Salvar o objeto no banco de dados
+        super().save_model(request, obj, form, change)
+
+        # Gerar o arquivo Excel com todos os dados da tabela LocalVotacao
+        self.exportar_para_excel()
 
     # Método para exportar os dados para um arquivo Excel
-    def exportar_para_excel(self, request, queryset):
+    def exportar_para_excel(self):
         try:
             # Criar uma nova planilha
             workbook = Workbook()
@@ -70,8 +73,11 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
             ]
             worksheet.append(headers)
 
-            # Adicionar os dados de cada local de votação selecionado na planilha
-            for local in queryset:
+            # Pegar todos os registros do banco de dados
+            locais_votacao = LocalVotacao.objects.all()
+
+            # Adicionar os dados de cada local de votação na planilha
+            for local in locais_votacao:
                 row = [
                     local.cod,
                     local.opm,
@@ -91,15 +97,10 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
                 ]
                 worksheet.append(row)
 
-            # Configurar a resposta para baixar o arquivo
-            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-            response['Content-Disposition'] = 'attachment; filename=Dados_eleições_2024.1_Dj.xlsx'
-
-            # Salvar o arquivo no response
-            workbook.save(response)
-            return response
+            # Salvar o arquivo Excel no diretório do projeto
+            caminho_arquivo = os.path.join(BASE_DIR, 'Dados_eleições_2024.1_Dj.xlsx')
+            workbook.save(caminho_arquivo)
+            print(f"Arquivo salvo com sucesso em: {caminho_arquivo}")
 
         except Exception as e:
-            self.message_user(request, f"Erro ao gerar o arquivo Excel: {e}", level='error')
-
-    exportar_para_excel.short_description = "Baixar Relatório de Locais de Votação"
+            print(f"Erro ao salvar o arquivo Excel: {e}")
