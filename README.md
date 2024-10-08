@@ -1,5 +1,6 @@
 # eleicoes_project
  
+```Python
 # 1.1 Criar ambiente virtual
 python3 -m venv .venv # criar
 source .venv/bin/activate # ativar
@@ -234,5 +235,26 @@ python manage.py runserver 192.168.1.40:8000
 # mac
 python manage.py runserver 192.168.0.15:8000
 
+# Hospedar no fly.io
+git clone https://github.com/ederpbj/eleicoes_project.git
+cd eleicoes_project
+fly lounch --now
+fly deploy
+
+fly secrets set SECRET_KEY="django-insecure-__zat#33ri00u^1$vd+&bs$c*gn7jou-9722*v+d^k$&2%_^ja"
+fly secrets set DEBUG="False"
+#ALLOWED_HOSTS="localhost,127.0.0.1"
+fly secrets set ALLOWED_HOSTS="https://eleicoes-project-fragrant-water-5323.fly.dev/"
+fly secrets set DB_USER="postgres"
+fly secrets set DB_PASSWORD="098098Pg#"
+fly secrets set DB_HOST="localhost"
+fly secrets set DB_PORT="5432"
+fly secrets set DB_NAME="eleicoes2024"
+fly secrets set EMAIL_HOST_USER="ciccsesds@gmail.com"
+fly secrets set EMAIL_HOST_PASSWORD="Cicc@190"
+
+fly secrets set DATABASE_URL="postgresql://postgres:'098098Pg#'@eleicoes-project-db.flycast:5432/eleicoes2024"
+fly secrets set DATABASE_URL="postgresql://postgres:098098Pg%23@eleicoes-project-db.flycast:5432/eleicoes2024"
 
 
+```
