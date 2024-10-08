@@ -255,6 +255,13 @@ fly secrets set EMAIL_HOST_PASSWORD="Cicc@190"
 
 fly secrets set DATABASE_URL="postgresql://postgres:'098098Pg#'@eleicoes-project-db.flycast:5432/eleicoes2024"
 fly secrets set DATABASE_URL="postgresql://postgres:098098Pg%23@eleicoes-project-db.flycast:5432/eleicoes2024"
+fly secrets set DATABASE_URL="postgresql://postgres:098098Pg%23@eleicoes-project-db.flycast:5432/eleicoes2024"
 
+fly secrets set DATABASE_URL="postgresql://postgres:098098Pg%23@eleicoes-project-fragrant-water-5323-db.flycast:5432/eleicoes2024"
+
+postgresql://eleicoes-project-fragrant-water-5323-db.flycast
+
+ALTER USER postgres WITH PASSWORD '098098Pg';
+fly secrets set DATABASE_URL="postgresql://postgres:098098Pg@eleicoes-project-fragrant-water-5323-db.flycast:5432/eleicoes2024"
 
 ```
