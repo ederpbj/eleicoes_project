@@ -234,7 +234,7 @@ python manage.py createsuperuser
 python manage.py runserver 0.0.0.0:8000
 python manage.py runserver 192.168.1.40:8000
 # mac
-python manage.py runserver 192.168.0.15:8000
+python manage.py runserver  192.168.1.170:8010
 
 
 
