@@ -16,7 +16,8 @@ from core.models import LocalVotacao
 
 def importar_dados():
     # Carregar a planilha Excel
-    df = pd.read_excel('/Users/user/Library/CloudStorage/GoogleDrive-ciccsesds@gmail.com/Meu Drive/CPRM/Dados_eleições_2024.1.xlsx', engine='openpyxl')
+    df = pd.read_excel('core/Dados_eleições_2024.1.xlsx', engine='openpyxl')
+
 
     # Mostrar os nomes das colunas para verificar se estão corretos
     print("Colunas encontradas no arquivo Excel:", df.columns)

@@ -290,6 +290,9 @@ psql 'postgresql://postgres:NyAsxKMgCLggdwE9@wrongfully-scrupulous-gelding.data-
 CREATE DATABASE eleicoes;
 
 
+# heroku
+heroku run python core/import_data.py --app eleicoes2024
+
 
 ```
 [docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)
