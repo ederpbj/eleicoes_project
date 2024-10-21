@@ -293,6 +293,12 @@ CREATE DATABASE eleicoes;
 # heroku
 heroku run python core/import_data.py --app eleicoes2024
 
+git status
+git add core/Dados_eleições_2024.1.xlsx
+git commit -m "Adicionando o arquivo Dados_eleições_2024.1.xlsx"
+git push heroku main
+
+
 
 ```
 [docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)
