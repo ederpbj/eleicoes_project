@@ -8,24 +8,26 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+###
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = os.getenv("DEBUG", "False").lower() in ['true', '1', 't']
-DEBUG = False
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 't')
 
-#ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-#ALLOWED_HOSTS.append('192.168.0.15')
+# Hosts permitidos, variáveis do .env são recomendadas para produção
+#ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
+#ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'https://docsreguladores-e761a2e195f9.herokuapp.com/').split(',')
 
-ALLOWED_HOSTS = ['.vercel.app', 'https://eleicoes-project.vercel.app/']
 
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 # Application definition
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -33,26 +35,29 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # Seus outros aplicativos
-    "core",
-    "bootstrap4",
-    "crispy_forms",
-    "django_extensions",
-    "whitenoise.runserver_nostatic",
+
+    'core',           # Sua aplicação
+    'bootstrap4',     # Pacote Bootstrap
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    # Middleware personalizado para redirecionar usuários logados da página de login
+    #"core.middleware.RedirectLoggedInUserMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Adicione isso logo após SecurityMiddleware
+    "django.contrib.sessions.middleware.SessionMiddleware",
 ]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 ROOT_URLCONF = "eleicoes.urls"
 
@@ -74,13 +79,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "eleicoes.wsgi.application"
 
-# Database
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f'postgres://{os.getenv("DB_USER", "postgres")}:{os.getenv("DB_PASSWORD", "")}@{os.getenv("DB_HOST", "localhost")}:{os.getenv("DB_PORT", "5432")}/{os.getenv("DB_NAME", "eleicoes2024")}',
-        conn_max_age=600,
-        ssl_require=not DEBUG
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT', '5432'),  # Porta padrão 5432
+        'CONN_MAX_AGE': 600,  # Mantém a conexão por 10 minutos
+        'OPTIONS': {
+            'sslmode': os.getenv('DB_SSLMODE', 'require'),  # SSL require ou disable
+            'connect_timeout': 10,  # Tempo limite de 10 segundos
+        },
+    }
 }
 
 # Password validation
@@ -105,53 +117,33 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Arquivos estáticos
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'core/static')]
 
-#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files
+# Arquivos de mídia
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Default primary key field type
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# Configuração do tipo de chave primária
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Autenticação
+# Redirecionamento após logout
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/lista_local/'
+LOGIN_REDIRECT_URL = '/documentos/'
 LOGOUT_REDIRECT_URL = '/'
 
-# Configuração do pacote Crispy Forms
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-# Configuração de e-mail para desenvolvimento
+# Configuração de e-mail
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'default_email@example.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'default_password')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))  # Porta padrão 587
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True').lower() in ('true', '1', 't')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
-# Adicionando uma camada de segurança extra
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = not DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
-X_FRAME_OPTIONS = 'DENY'
-
-
-# vercel
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'seu_cloud_name',
-    'API_KEY': 'sua_api_key',
-    'API_SECRET': 'seu_api_secret'
-}
-
-# vercel
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
-
-
+# Configuração de mensagens
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+HANDLER403 = 'django.views.defaults.permission_denied'

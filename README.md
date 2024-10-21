@@ -1,13 +1,29 @@
-# eleicoes_project
- 
-# 1.1 Criar ambiente virtual
+# Eleicoes
+
+```Python
+# 0. gitignore
+git rm -r --cached .
+git add .
+git commit -m "Remover arquivos do controle de versão e atualizar .gitignore"
+git push origin master
+
+# 1. Instalar pacotes 
+pip install django whitenoise gunicorn django-bootstrap4 PyMySQL django-stdimage
+
+pip freeze > requirements.txt
+
+# 2. Criar projeto
+django-admin startproject djangoDocsRegulador .
+
+# 3.1 Criar aplicação
+django-admin startapp core
+
+# 3.2. Criar ambiente virtual
 python3 -m venv .venv # criar
 source .venv/bin/activate # ativar
 
-# 1.2 Instalar pacotes 
-pip install django whitenoise gunicorn django-bootstrap4 PyMySQL django-stdimage
 
-# 2 instalar pacotes
+# 3.3 instalar pacotes
 
 pip install psycopg2-binary # instalar pacote
 pip install --upgrade pip # atualizar pip
@@ -18,21 +34,9 @@ pip install psycopg2
 pip install psycopg
 pip install django-crispy-forms
 pip install django-bootstrap4
-pip install pandas openpyxl
 
-# 3.1 Criar projeto
-django-admin startproject eleicoes .
-
-# 3.2 Criar aplicação
-django-admin startapp core
 
 pip freeze > requirements.txt
-
-# 3.3 importar dados
-python manage.py shell
-
-from core.import_data import importar_dados
-importar_dados()
 
 # 4.1 Instalando Postgres
 brew install postgresql
@@ -200,39 +204,95 @@ find . -path "*/migrations/*.pyc"  -delete
 find . -name "*.pyc" -exec rm -f {} \;
 find . -name "__pycache__" -exec rm -rf {} \;
 
+ls -l /home/ubuntu/DocsReguladores/venv # listar
 
-# Erros
-python manage.py shell
+# gunicorn
+sudo nano /etc/systemd/system/gunicorn.service
 
-from core.models import LocalVotacao
+# colar conteudo
 
-# Atualizar todos os registros que têm `data_instalacao` igual a None para um valor padrão, como a data atual
-LocalVotacao.objects.filter(data_instalacao__isnull=True).update(data_instalacao=None)
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl status gunicorn
 
 
-# Hoje
-venv\Scripts\activate # ativar
+sudo systemctl restart gunicorn
+sudo systemctl restart nginx
 
+# configurar nginx
+sudo nano /etc/nginx/sites-available/docsreguladores
+
+# excluir da raiz
+sudo rm -rf /home/ubuntu/DocsReguladores/staticfiles
+
+# screen rodar em segundo plano
+screen -list
+screen -S django
+screen -r 28353.django # entrar na screen
+
+# Redirecionar a porta 80 para a porta 8080
+sudo /sbin/iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8000
+
+# rodando em
+http://44.205.47.59/
+http://52.54.188.232/
+
+# atualizando com gihub
+git pull origin main
+
+# listar portas, e parar
+sudo lsof -i :8000
+sudo kill -9 27411 27412 27413 27414
+
+# restartar serviços aws
+source venv/bin/activate
+pip freeze > requirements.txt
+pip install -r requirements.txt
 python manage.py makemigrations core
 python manage.py migrate
 
-# limpar o banco
-python manage.py shell 
+rm -rf staticfiles
+python manage.py collectstatic --noinput
+
+sudo systemctl daemon-reload
 
 
-# Iterar por todas as tabelas do projeto e excluir todos os registros
-from django.apps import apps
-for model in apps.get_models():
-    model.objects.all().delete()
-
-# importar do excel
-python core/import_data.py
-
-# executar na rede local
+sudo systemctl restart gunicorn
+sudo systemctl restart nginx
+sudo systemctl status gunicorn
+sudo systemctl status nginx
 python manage.py runserver 0.0.0.0:8000
-python manage.py runserver 192.168.1.40:8000
-# mac
-python manage.py runserver 192.168.0.15:8000
+
+# gihub
+git pull origin main  # puxar as últimas atualizações do repositório remoto
+
+# chave publica local
+openssl req -new -key server.key -out server.csr\n
 
 
+Atualizar python
+
+# Remover o ambiente virtual antigo
+deactivate  # caso esteja ativado
+rm -rf venv
+
+# Criar um novo ambiente virtual com Python 3.10 ou superior
+python3.10 -m venv venv
+
+# Ativar o ambiente virtual
+source venv/bin/activate
+
+# Instalar os pacotes novamente
+pip install -r requirements.txt
+
+# eleicoes
+psql 'postgresql://postgres:NyAsxKMgCLggdwE9@wrongfully-scrupulous-gelding.data-1.use1.tembo.io:5432/postgres'
+CREATE DATABASE eleicoes;
+
+
+
+```
+[docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)
+[Appliku hospedagem](https://app.appliku.com/auth/sign-up)
+[Sua aplicação DJANGO NO AR](https://www.youtube.com/watch?v=ZBstiRvHX7w)
 
