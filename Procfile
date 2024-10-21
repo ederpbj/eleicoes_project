@@ -1,1 +1,1 @@
-web: gunicorn djangoDocsRegulador.wsgi:application --log-file=-
+web: gunicorn eleicoes.wsgi:application --log-file=-
