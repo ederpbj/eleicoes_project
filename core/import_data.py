@@ -15,8 +15,11 @@ django.setup()
 from core.models import LocalVotacao
 
 def importar_dados():
+    url = 'https://docs.google.com/spreadsheets/d/1lzAXDWS4gkCrDW6uPqfPRFWsBmzNEbaZ/edit?usp=sharing&ouid=111178866198443903759&rtpof=true&sd=true'
+    df = pd.read_excel(url, engine='openpyxl')
+
     # Carregar a planilha Excel
-    df = pd.read_excel('core/Dados_eleições_2024.1.xlsx', engine='openpyxl')
+    #df = pd.read_excel('core/Dados_eleições_2024.1.xlsx', engine='openpyxl')
 
 
     # Mostrar os nomes das colunas para verificar se estão corretos
