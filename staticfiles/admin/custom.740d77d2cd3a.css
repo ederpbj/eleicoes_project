@@ -1,0 +1,26 @@
+/* Deixar a barra superior fixa */
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #fff; /* Fundo branco para se destacar */
+}
+
+/* Corrigir a margem superior do conteúdo para não ficar por baixo do header fixo */
+#content {
+    margin-top: 60px; /* Ajuste conforme a altura do seu cabeçalho */
+}
+
+/* Mover o botão "Salvar" ao lado da barra de pesquisa */
+object-tools, .submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
