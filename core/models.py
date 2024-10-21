@@ -13,6 +13,11 @@ class LocalVotacao(models.Model):
         ('Desmobilizado', 'Desmobilizado'),
     ]
 
+    STATUS_FISCALIZACAO = [
+        ('Fiscalizado', 'Fiscalizado'),
+        ('Não Fiscalizado', 'Não Fiscalizado'),
+    ]
+
     cod = models.IntegerField()
     opm = models.CharField(max_length=100)
     zona = models.IntegerField()
@@ -34,6 +39,11 @@ class LocalVotacao(models.Model):
         max_length=20,
         choices=STATUS_URNAS_CHOICES,
         default='Indisponível',
+    )
+    status_fiscalizacao = models.CharField(
+        max_length=20,
+        choices=STATUS_FISCALIZACAO,
+        default='Não Fiscalizado',
     )
     falta_militar = models.IntegerField()
 

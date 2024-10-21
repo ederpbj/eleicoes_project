@@ -33,6 +33,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
         'nivel_prioridade',
         'local_votacao',
         'status_urnas',
+        'status_fiscalizacao',
         'falta_militar',
     )
 
@@ -46,7 +47,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
     ordering = ('cod',)
 
     # Campos editáveis diretamente na visualização da lista
-    list_editable = ('status_urnas', 'local_votacao', 'falta_militar')
+    list_editable = ('status_urnas', 'status_fiscalizacao', 'local_votacao', 'falta_militar')
 
     # Número de registros exibidos por página
     list_per_page = 20
@@ -66,7 +67,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
             headers = [
                 'cod', 'opm', 'zona', 'municipio', 'nome_local', 'endereco', 'bairro',
                 'qtde_secoes', 'data_instalacao', 'horario', 'qtde_eleitores',
-                'nivel_prioridade', 'local_votacao', 'status_urnas', 'falta_militar'
+                'nivel_prioridade', 'local_votacao', 'status_urnas', 'status_fiscalizacao', 'falta_militar'
             ]
             worksheet.append(headers)
 
@@ -87,6 +88,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
                     local.nivel_prioridade,
                     local.local_votacao,
                     local.status_urnas,
+                    local.status_fiscalizacao,
                     local.falta_militar,
                 ]
                 worksheet.append(row)

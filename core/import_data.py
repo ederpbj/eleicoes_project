@@ -41,6 +41,7 @@ def importar_dados():
             nivel_prioridade=row['NÍVEL DE PRIORIDADE'] if pd.notna(row['NÍVEL DE PRIORIDADE']) else '',
             local_votacao=row['LOCAL DE VOTAÇÃO '] if pd.notna(row['LOCAL DE VOTAÇÃO ']) else '',
             status_urnas=row[' STATUS DAS URNAS'] if pd.notna(row[' STATUS DAS URNAS']) else '',
+            status_fiscalizacao=row[' STATUS FISCALIZAÇÃO'] if pd.notna(row[' STATUS DAS URNAS']) else '',
             falta_militar=int(row['FALTA MILITAR']) if pd.notna(row['FALTA MILITAR']) else 0,
         )
     print("Dados importados com sucesso!")
