@@ -299,6 +299,8 @@ git commit -m "Adicionando o arquivo Dados_eleições_2024.1.xlsx"
 git push heroku main
 
 
+heroku logs --tail --app eleicoes2024
+
 
 ```
 [docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)
