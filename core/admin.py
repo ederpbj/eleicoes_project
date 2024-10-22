@@ -1,10 +1,11 @@
+
 from .models import LocalVotacao
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-import openpyxl
 from openpyxl import Workbook
+from django.urls import path
+from django.shortcuts import redirect
 
-import os
 from pathlib import Path
 from django.http import HttpResponse
 
@@ -52,18 +53,21 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
     # Número de registros exibidos por página
     list_per_page = 20
 
-    # Definir uma ação personalizada para exportar os dados para Excel
-    actions = ["exportar_para_excel"]
+    # Adicionar o botão na página de administração
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['export_button'] = True  # Adiciona um contexto extra para exibir o botão
+        return super().changelist_view(request, extra_context=extra_context)
 
-    # Método para exportar os dados para um arquivo Excel
-    def exportar_para_excel(self, request, queryset):
+    def exportar_para_excel(self, request):
+        # Buscar todos os registros do banco de dados
+        queryset = LocalVotacao.objects.all()
+
         try:
-            # Criar uma nova planilha
             workbook = Workbook()
             worksheet = workbook.active
             worksheet.title = "Locais de Votação"
 
-            # Definir cabeçalhos na primeira linha da planilha
             headers = [
                 'cod', 'opm', 'zona', 'municipio', 'nome_local', 'endereco', 'bairro',
                 'qtde_secoes', 'data_instalacao', 'horario', 'qtde_eleitores',
@@ -71,37 +75,30 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
             ]
             worksheet.append(headers)
 
-            # Adicionar os dados de cada local de votação selecionado na planilha
             for local in queryset:
                 row = [
-                    local.cod,
-                    local.opm,
-                    local.zona,
-                    local.municipio,
-                    local.nome_local,
-                    local.endereco,
-                    local.bairro,
-                    local.qtde_secoes,
+                    local.cod, local.opm, local.zona, local.municipio, local.nome_local,
+                    local.endereco, local.bairro, local.qtde_secoes,
                     local.data_instalacao.strftime("%Y-%m-%d") if local.data_instalacao else "",
-                    local.horario,
-                    local.qtde_eleitores,
-                    local.nivel_prioridade,
-                    local.local_votacao,
-                    local.status_urnas,
-                    local.status_fiscalizacao,
+                    local.horario, local.qtde_eleitores, local.nivel_prioridade,
+                    local.local_votacao, local.status_urnas, local.status_fiscalizacao,
                     local.falta_militar,
                 ]
                 worksheet.append(row)
 
-            # Configurar a resposta para baixar o arquivo
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-            response['Content-Disposition'] = 'attachment; filename=Dados_eleições_2024.1_Dj.xlsx'
-
-            # Salvar o arquivo no response
+            response['Content-Disposition'] = 'attachment; filename=Dados_eleições_2024.2.xlsx'
             workbook.save(response)
             return response
 
         except Exception as e:
             self.message_user(request, f"Erro ao gerar o arquivo Excel: {e}", level='error')
+            return redirect('admin:core_localvotacao_changelist')
 
-    exportar_para_excel.short_description = "Baixar Relatório de Locais de Votação"
+    # Registrar a URL personalizada para o botão de exportação
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('exportar_excel/', self.admin_site.admin_view(self.exportar_para_excel), name='exportar_para_excel'),
+        ]
+        return custom_urls + urls
