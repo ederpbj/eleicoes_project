@@ -303,6 +303,11 @@ heroku logs --tail --app eleicoes2024
 
 heroku run bash -a eleicoes2024
 
+heroku config:set DJANGO_SETTINGS_MODULE=eleicoes.settings -a eleicoes2024
+heroku run bash -a eleicoes2024
+cd core
+python import_data.py
+
 
 
 ```

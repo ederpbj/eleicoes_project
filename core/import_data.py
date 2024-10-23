@@ -2,6 +2,17 @@ import pandas as pd
 
 from core.models import LocalVotacao
 
+import os
+import django
+
+# Configurar o DJANGO_SETTINGS_MODULE manualmente, se necessário
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'eleicoes.settings')
+
+# Inicializar o Django
+django.setup()
+
+from core.models import LocalVotacao
+
 
 def importar_dados(data_instalacao=None):
     # URL de exportação do Google Sheets
