@@ -308,6 +308,9 @@ cd core
 python import_data.py
 
 
+python status_urnas.py
+
+
 
 ```
 [docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)
