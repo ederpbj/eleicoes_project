@@ -12,16 +12,16 @@ from core.models import LocalVotacao
 
 
 def importar_dados(data_instalacao=None):
-    # URL de exportação do Google Sheets em formato CSV
-    url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_zsvB3KzJNeBpeQ36WgpYxXkjFswXZUfCR1hmXIZbWFIuNZoqRtEAXkg7MJWY_A/pub?output=csv'
+    # Caminho do arquivo CSV local
+    url = '/Users/user/Library/CloudStorage/GoogleDrive-ciccsesds@gmail.com/Meu Drive/CPRM/Dados_eleições_2024.2_Dj.csv'
 
-    # Tentar carregar o arquivo CSV diretamente da URL
+    # Tentar carregar o CSV local
     try:
         df = pd.read_csv(url)
-        print("Dados do Google Sheets carregados com sucesso!")
+        print("CSV carregado com sucesso!")
         print(df.head())  # Exibe as primeiras linhas do arquivo para verificar o conteúdo
     except Exception as e:
-        print(f"Erro ao carregar o arquivo CSV do Google Sheets: {e}")
+        print(f"Erro ao carregar CSV: {e}")
         return
 
     # Definir as colunas esperadas

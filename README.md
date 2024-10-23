@@ -311,6 +311,12 @@ python import_data.py
 python status_urnas.py
 
 
+# local
+# apos executar import_data.py
+export DJANGO_SETTINGS_MODULE=eleicoes.settings
+set DJANGO_SETTINGS_MODULE=eleicoes.settings
+
+
 
 ```
 [docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)

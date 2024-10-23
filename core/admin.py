@@ -21,34 +21,32 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
     # Exibir todos os campos do modelo na lista de objetos
     list_display = (
         'cod',
-        'opm',
+        'cia',
         'zona',
-        'municipio',
         'nome_local',
         'endereco',
         'bairro',
-        'qtde_secoes',
+        'secoes',
         'data_instalacao',
         'horario',
-        'qtde_eleitores',
-        'nivel_prioridade',
+        'eleitores',
+        'prioridade',
         'local_votacao',
-        'status_urnas',
-        'status_fiscalizacao',
-        'falta_militar',
+        'local_urnas',
+        'fiscalizacao',
     )
 
     # Filtros laterais para facilitar a navegação pelos registros
-    list_filter = ('status_urnas', 'local_votacao', 'municipio', 'opm')
+    list_filter = ('local_urnas', 'local_votacao', 'cia')
 
     # Campos para busca rápida no topo da página de administração
-    search_fields = ('municipio', 'nome_local', 'opm', 'endereco', 'bairro')
+    search_fields = ('nome_local', 'cia', 'endereco', 'bairro')
 
     # Ordenação dos registros por 'cod' em ordem crescente
     ordering = ('cod',)
 
     # Campos editáveis diretamente na visualização da lista
-    list_editable = ('status_urnas', 'status_fiscalizacao', 'local_votacao', 'falta_militar')
+    list_editable = ('local_urnas', 'fiscalizacao', 'local_votacao')
 
     # Número de registros exibidos por página
     list_per_page = 20
@@ -69,20 +67,19 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
             worksheet.title = "Locais de Votação"
 
             headers = [
-                'cod', 'opm', 'zona', 'municipio', 'nome_local', 'endereco', 'bairro',
-                'qtde_secoes', 'data_instalacao', 'horario', 'qtde_eleitores',
-                'nivel_prioridade', 'local_votacao', 'status_urnas', 'status_fiscalizacao', 'falta_militar'
+                'cod', 'cia', 'zona', 'nome_local', 'endereco', 'bairro',
+                'secoes', 'data_instalacao', 'horario', 'eleitores',
+                'prioridade', 'local_votacao', 'local_urnas', 'fiscalizacao'
             ]
             worksheet.append(headers)
 
             for local in queryset:
                 row = [
-                    local.cod, local.opm, local.zona, local.municipio, local.nome_local,
-                    local.endereco, local.bairro, local.qtde_secoes,
+                    local.cod, local.cia, local.zona, local.nome_local,
+                    local.endereco, local.bairro, local.secoes,
                     local.data_instalacao.strftime("%Y-%m-%d") if local.data_instalacao else "",
-                    local.horario, local.qtde_eleitores, local.nivel_prioridade,
-                    local.local_votacao, local.status_urnas, local.status_fiscalizacao,
-                    local.falta_militar,
+                    local.horario, local.eleitores, local.prioridade,
+                    local.local_votacao, local.local_urnas, local.fiscalizacao,
                 ]
                 worksheet.append(row)
 

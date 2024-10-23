@@ -3,9 +3,17 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 import openpyxl
 from openpyxl import Workbook
-
 import os
 from pathlib import Path
+import django
+
+# Definir a variável de ambiente DJANGO_SETTINGS_MODULE antes de inicializar o Django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'eleicoes.settings')
+
+# Inicializar o Django
+django.setup()
+
+from core.models import LocalVotacao
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 # Personalizar o título e os textos do Django Admin
@@ -18,33 +26,31 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
     # Exibir todos os campos do modelo na lista de objetos
     list_display = (
         'cod',
-        'opm',
+        'cia',
         'zona',
-        'municipio',
         'nome_local',
         'endereco',
         'bairro',
-        'qtde_secoes',
+        'secoes',
         'data_instalacao',
         'horario',
-        'qtde_eleitores',
-        'nivel_prioridade',
+        'eleitores',
+        'prioridade',
         'local_votacao',
-        'status_urnas',
-        'falta_militar',
+        'local_urnas',
     )
 
     # Filtros laterais para facilitar a navegação pelos registros
-    list_filter = ('status_urnas', 'local_votacao', 'municipio', 'opm')
+    list_filter = ('local_votacao', 'local_urnas', 'cia')
 
     # Campos para busca rápida no topo da página de administração
-    search_fields = ('municipio', 'nome_local', 'opm', 'endereco', 'bairro')
+    search_fields = ('local_votacao', 'cia', 'endereco', 'bairro')
 
     # Ordenação dos registros por 'cod' em ordem crescente
     ordering = ('cod',)
 
     # Campos editáveis diretamente na visualização da lista
-    list_editable = ('status_urnas', 'local_votacao', 'falta_militar')
+    list_editable = ('local_urnas', 'local_votacao', 'fiscalizacao')
 
     # Número de registros exibidos por página
     list_per_page = 20
@@ -67,9 +73,9 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
 
             # Definir cabeçalhos na primeira linha da planilha
             headers = [
-                'cod', 'opm', 'zona', 'municipio', 'nome_local', 'endereco', 'bairro',
-                'qtde_secoes', 'data_instalacao', 'horario', 'qtde_eleitores',
-                'nivel_prioridade', 'local_votacao', 'status_urnas', 'falta_militar'
+                'cod', 'cia', 'zona', 'nome_local', 'endereco', 'bairro',
+                'secoes', 'data_instalacao', 'horario', 'eleitores',
+                'prioridade', 'local_votacao', 'local_urnas'
             ]
             worksheet.append(headers)
 
@@ -82,23 +88,21 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
                     local.cod,
                     local.opm,
                     local.zona,
-                    local.municipio,
                     local.nome_local,
                     local.endereco,
                     local.bairro,
-                    local.qtde_secoes,
+                    local.secoes,
                     local.data_instalacao.strftime("%Y-%m-%d") if local.data_instalacao else "",
                     local.horario,
-                    local.qtde_eleitores,
-                    local.nivel_prioridade,
+                    local.eleitores,
+                    local.prioridade,
                     local.local_votacao,
-                    local.status_urnas,
-                    local.falta_militar,
+                    local.local_urnas,
                 ]
                 worksheet.append(row)
 
             # Salvar o arquivo Excel no diretório do projeto
-            caminho_arquivo = os.path.join(BASE_DIR, 'Dados_eleições_2024.1_Dj.xlsx')
+            caminho_arquivo = os.path.join(BASE_DIR, 'Dados_eleições_2024.2_Dj.xlsx')
             workbook.save(caminho_arquivo)
             print(f"Arquivo salvo com sucesso em: {caminho_arquivo}")
 
