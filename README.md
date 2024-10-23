@@ -184,11 +184,11 @@ heroku logs --tail --app django2-zu # verificar erros
 heroku run python manage.py collectstatic --app django2-zu # coletar estaticos
 
 # migration do core
-heroku run python manage.py makemigrations core --app django2-zu # migrar
-heroku run python manage.py migrate core --app django2-zu # aplicar
-heroku run python manage.py showmigrations core --app django2-zu # verificar
-heroku run python manage.py collectstatic --app django2-zu # arquivos estaticos
-heroku logs --tail --app django2-zu # verificar erros
+heroku run python manage.py makemigrations core --app eleicoes2024 # migrar
+heroku run python manage.py migrate core --app eleicoes2024 # aplicar
+heroku run python manage.py showmigrations core --app eleicoes2024 # verificar
+heroku run python manage.py collectstatic --app eleicoes2024 # arquivos estaticos
+heroku logs --tail --app eleicoes2024 # verificar erros
 
 # Ajustes
 python manage.py flush # apaga todos os dados de todas as tabelas do banco 
@@ -300,6 +300,9 @@ git push heroku main
 
 
 heroku logs --tail --app eleicoes2024
+
+heroku run bash -a eleicoes2024
+
 
 
 ```

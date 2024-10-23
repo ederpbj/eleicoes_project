@@ -1,5 +1,7 @@
 import pandas as pd
 
+from core.models import LocalVotacao
+
 
 def importar_dados():
     # URL de exportação do Google Sheets
