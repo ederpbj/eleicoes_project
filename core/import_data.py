@@ -3,21 +3,35 @@ import pandas as pd
 from core.models import LocalVotacao
 
 
-def importar_dados():
+def importar_dados(data_instalacao=None):
     # URL de exportação do Google Sheets
     url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTMcNDckORxHEEy_VKuFU8bHsYVNh-EPtVY35Nq7FL2SlEhNulj5PVMnDTtRijsvA/pub?output=csv'
 
     # Carregar o CSV diretamente da URL
-    df = pd.read_csv(url)
+    try:
+        df = pd.read_csv(url)
+    except Exception as e:
+        print(f"Erro ao carregar CSV: {e}")
+        return
 
+    expected_columns = ['Cod', 'OPMs', 'ZONA', 'MUNICÍPIO', 'NOME DO LOCAL', 'ENDEREÇO', 'BAIRRO',
+                        'QTDE_SECOES', 'DATA DA INSTALAÇÃO', 'HORÁRIO', 'QTDE_ELEITORES',
+                        'NÍVEL DE PRIORIDADE', 'LOCAL DE VOTAÇÃO ', ' STATUS DAS URNAS',
+                        ' STATUS FISCALIZAÇÃO', 'FALTA MILITAR']
+
+    if not all(col in df.columns for col in expected_columns):
+        print("Erro: Colunas faltando no CSV.")
+        return
+    
     # Mostrar os nomes das colunas para verificar se estão corretos
     print("Colunas encontradas no arquivo CSV:", df.columns)
 
     # Iterar pelas linhas do DataFrame e criar objetos LocalVotacao
     for _, row in df.iterrows():
-        # Garantir que `data_instalacao` nunca seja nulo
-        data_instalacao = pd.to_datetime(row['DATA DA INSTALAÇÃO'], errors='coerce').date() if pd.notna(
-            row['DATA DA INSTALAÇÃO']) else None
+        # Garantir que o código é único
+        if LocalVotacao.objects.filter(cod=int(row['Cod'])).exists():
+            print(f"Registro com o cod {row['Cod']} já existe, pulando...")
+            continue
 
         LocalVotacao.objects.create(
             cod=int(row['Cod']) if pd.notna(row['Cod']) else 0,
