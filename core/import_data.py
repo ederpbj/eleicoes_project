@@ -33,7 +33,7 @@ def importar_dados(data_instalacao=None):
     if not all(col in df.columns for col in expected_columns):
         print("Erro: Colunas faltando no CSV.")
         return
-    
+
     # Mostrar os nomes das colunas para verificar se estão corretos
     print("Colunas encontradas no arquivo CSV:", df.columns)
 

@@ -301,8 +301,7 @@ git push heroku main
 
 heroku logs --tail --app eleicoes2024
 
-heroku run bash -a eleicoes2024
-
+# importar dados do excel
 heroku config:set DJANGO_SETTINGS_MODULE=eleicoes.settings -a eleicoes2024
 heroku run bash -a eleicoes2024
 cd core
