@@ -324,6 +324,12 @@ TRUNCATE TABLE core_localvotacao # apagar todos os dados da tabela
 SET datestyle = 'MDY'; #aceitar data
 \copy core_localvotacao(cod, zona, nome_local, endereco, bairro, cia, secoes, data_instalacao, horario, eleitores, prioridade, local_votacao, local_urnas, fiscalizacao) FROM '/Users/user/dev/Python/Django/eleicoes_project/core/Dados_eleições_2024.2.csv' DELIMITER ',' CSV HEADER;
 
+
+# Criar deashboard
+
+pip install plotly
+
+
 ```
 [docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)
 [Appliku hospedagem](https://app.appliku.com/auth/sign-up)
