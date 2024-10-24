@@ -28,7 +28,7 @@ class LocalVotacao(models.Model):
     secoes = models.IntegerField()
     data_instalacao = models.DateField(null=True, blank=True)
     horario = models.CharField(max_length=50)
-    eleitores = models.IntegerField()
+    eleitores = models.IntegerField(null=True, blank=True)
     prioridade = models.CharField(max_length=50)
     local_votacao = models.CharField(
         max_length=10,
@@ -46,8 +46,10 @@ class LocalVotacao(models.Model):
         default='Não Fiscalizado',
     )
 
+
+
     def clean(self):
-        if self.eleitores < 0:
+        if self.eleitores is not None and self.eleitores < 0:
             raise ValidationError('O número de eleitores não pode ser negativo.')
 
     def is_active(self):
