@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard de Locais de Votação</title>
+    <style>
+        .grafico-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between; /* Ajusta o espaço entre os gráficos */
+        }
+        .grafico {
+            flex: 1 1 48%; /* Ajusta para ocupar 48% da largura */
+            margin: 10px;
+            max-width: 48%; /* Limita a largura máxima de cada gráfico para 48% */
+            box-sizing: border-box;
+        }
+        @media (max-width: 800px) {
+            .grafico {
+                flex: 1 1 100%; /* Em telas pequenas, cada gráfico ocupa 100% da largura */
+                max-width: 100%; /* Garantir que a largura máxima seja 100% */
+            }
+        }
+        .admin-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dashboard de Locais de Votação</h1>
+
+    <!-- Botão para redirecionar à página admin -->
+    <a href="/admin/" class="admin-button" target="_blank">Admin</a> <!-- Botão posicionado no canto superior direito -->
+
+    <!-- Container Flexbox para os gráficos -->
+    <div class="grafico-container">
+        <div class="grafico">
+            <h2>Status das Urnas</h2>
+            {{ graph_status_urnas|safe }}
+        </div>
+        <div class="grafico">
+            <h2>Status de Fiscalização</h2>
+            {{ graph_status_fiscalizacao|safe }}
+        </div>
+        <div class="grafico">
+            <h2>Status de Locais</h2>
+            {{ graph_status_local|safe }}
+        </div>
+        <div class="grafico">
+            <h2>Locais de Votação por CIA</h2>
+            {{ graph_locais_votacao_cia|safe }}
+        </div>
+    </div>
+</body>
+</html>
