@@ -319,6 +319,11 @@ set DJANGO_SETTINGS_MODULE=eleicoes.settings
 # conecatando ao tembo remoto
 psql 'postgresql://postgres:CcMsryNtjI7iL8m3@vitally-true-skimmer.data-1.use1.tembo.io:5432/postgres'
 
+# importar via psql
+TRUNCATE TABLE core_localvotacao # apagar todos os dados da tabela
+SET datestyle = 'MDY'; #aceitar data
+\copy core_localvotacao(cod, zona, nome_local, endereco, bairro, cia, secoes, data_instalacao, horario, eleitores, prioridade, local_votacao, local_urnas, fiscalizacao) FROM '/Users/user/dev/Python/Django/eleicoes_project/core/Dados_eleições_2024.2.csv' DELIMITER ',' CSV HEADER;
+
 ```
 [docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)
 [Appliku hospedagem](https://app.appliku.com/auth/sign-up)

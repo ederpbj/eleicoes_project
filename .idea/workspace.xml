@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="892e28bc-0f11-48de-ad62-056cd5ddc6f4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/core/importar_dados/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/importar_dados/import_data-google.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/importar_dados/import_data-head.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/importar_dados/Dados_eleições_2024.2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/importar_dados/Dados_eleições_2024.2.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/import_data-csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/importar_dados/import_data-csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/import_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/import_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/Dados_eleições_2024.1_Dj.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/Dados_eleições_2024.2.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/core/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,15 +56,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.admin_gera_autom.executor&quot;: &quot;Run&quot;,
-    &quot;Python.import_data.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;base-nova&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/user/dev/Python/Django/eleicoes_project/core/importar_dados&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.admin_gera_autom.executor": "Run",
+    "Python.import_data-google.executor": "Run",
+    "Python.import_data-head.executor": "Run",
+    "Python.import_data.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "base-nova",
+    "last_opened_file_path": "/Users/user/dev/Python/Django/eleicoes_project/core/importar_dados"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/core/importar_dados" />
@@ -78,6 +78,58 @@
       <recent name="$PROJECT_DIR$/core/importar_dados" />
       <recent name="$PROJECT_DIR$/core" />
     </key>
+  </component>
+  <component name="RunManager" selected="Python.import_data-head">
+    <configuration name="import_data-google" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eleicoes_project" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/core/importar_dados" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/core/importar_dados/import_data-google.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="import_data-head" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eleicoes_project" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/core/importar_dados" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/core/importar_dados/import_data-head.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.import_data-head" />
+        <item itemvalue="Python.import_data-google" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
