@@ -316,7 +316,8 @@ python status_urnas.py
 export DJANGO_SETTINGS_MODULE=eleicoes.settings
 set DJANGO_SETTINGS_MODULE=eleicoes.settings
 
-
+# conecatando ao tembo remoto
+psql 'postgresql://postgres:CcMsryNtjI7iL8m3@vitally-true-skimmer.data-1.use1.tembo.io:5432/postgres'
 
 ```
 [docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)

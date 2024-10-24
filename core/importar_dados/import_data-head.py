@@ -3,6 +3,7 @@ import os
 import django
 import sys
 
+
 # Adicionar o diretório do projeto ao sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -14,22 +15,36 @@ django.setup()
 
 from core.models import LocalVotacao
 
+import os
+
+caminho_arquivo = os.path.join(os.path.dirname(__file__), 'Dados_eleições_2024.2.xlsx')
+
+if os.path.exists(caminho_arquivo):
+    print(f"Arquivo encontrado: {caminho_arquivo}")
+else:
+    print(f"Arquivo não encontrado: {caminho_arquivo}")
+
+try:
+    df = pd.read_excel(caminho_arquivo)
+    if df.empty:
+        print("O DataFrame está vazio. Verifique o arquivo Excel.")
+    else:
+        print(f"Primeiras linhas do arquivo:\n{df.head()}")  # Exibe as primeiras linhas para verificar
+except Exception as e:
+    print(f"Erro ao carregar o arquivo Excel: {e}")
+
 
 def importar_dados(data_instalacao=None):
     # Caminho para o arquivo Excel dentro da pasta core
     caminho_arquivo = os.path.join(os.path.dirname(__file__), 'Dados_eleições_2024.2.xlsx')
-
-    # Verifique se o arquivo existe
-    if not os.path.exists(caminho_arquivo):
-        print(f"Arquivo não encontrado: {caminho_arquivo}")
-        return
 
     # Tentar carregar o arquivo Excel local
     try:
         print(f"Carregando o arquivo Excel em: {caminho_arquivo}")
         df = pd.read_excel(caminho_arquivo)
         print("Arquivo Excel carregado com sucesso!")
-        print(f"Primeiras linhas do arquivo:\n{df.head()}")  # Exibe as primeiras linhas para verificar o conteúdo
+        print("Primeiras linhas do arquivo:")
+        print(df.head())  # Exibe as primeiras linhas do arquivo para verificar o conteúdo
     except Exception as e:
         print(f"Erro ao carregar o arquivo Excel: {e}")
         return
@@ -55,19 +70,17 @@ def importar_dados(data_instalacao=None):
 
     # Iterar pelas linhas do DataFrame e criar objetos LocalVotacao
     for index, row in df.iterrows():
+        print(f"Processando o registro {index + 1} com o cod {row['COD']}...")  # Adiciona um log para cada linha processada
+
+        # Verificar se o registro já existe no banco
+        if LocalVotacao.objects.filter(cod=int(row['COD'])).exists():
+            print(f"Registro com o cod {row['COD']} já existe, pulando...")
+            continue
+
+        # Criar um novo objeto LocalVotacao
         try:
-            cod = int(row['COD']) if pd.notna(row['COD']) else 0
-            print(
-                f"Processando o registro {index + 1} com o cod {cod}...")  # Adiciona um log para cada linha processada
-
-            # Verificar se o registro já existe no banco
-            if LocalVotacao.objects.filter(cod=cod).exists():
-                print(f"Registro com o cod {cod} já existe, pulando...")
-                continue
-
-            # Criar um novo objeto LocalVotacao
             LocalVotacao.objects.create(
-                cod=cod,
+                cod=int(row['COD']) if pd.notna(row['COD']) else 0,
                 zona=int(row['ZONA']) if pd.notna(row['ZONA']) else 0,
                 nome_local=row['NOME DO LOCAL'] if pd.notna(row['NOME DO LOCAL']) else '',
                 endereco=row['ENDEREÇO'] if pd.notna(row['ENDEREÇO']) else '',
@@ -82,8 +95,8 @@ def importar_dados(data_instalacao=None):
                 fiscalizacao=row['FISCALIZAÇÃO'] if pd.notna(row['FISCALIZAÇÃO']) else '',
                 cia=row['CIA'] if pd.notna(row['CIA']) else ''
             )
-            print(f"Registro com o cod {cod} criado com sucesso.")
+            print(f"Registro com o cod {row['COD']} criado com sucesso.")
         except Exception as e:
-            print(f"Erro ao processar o registro {index + 1}: {e}")
+            print(f"Erro ao criar o registro com o cod {row['COD']}: {e}")
 
     print("Dados importados com sucesso!")

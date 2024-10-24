@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class LocalVotacao(models.Model):
     LOCAL_VOTACAO_CHOICES = [
@@ -18,14 +19,14 @@ class LocalVotacao(models.Model):
         ('Não Fiscalizado', 'Não Fiscalizado'),
     ]
 
-    cod = models.IntegerField()
+    cod = models.IntegerField(unique=True)  # Define o campo cod como único
     cia = models.CharField(max_length=100)
     zona = models.IntegerField()
     nome_local = models.CharField(max_length=255)
     endereco = models.CharField(max_length=255)
     bairro = models.CharField(max_length=100)
     secoes = models.IntegerField()
-    data_instalacao = models.DateField(null=True, blank=True)  # Permitir valores nulos
+    data_instalacao = models.DateField(null=True, blank=True)
     horario = models.CharField(max_length=50)
     eleitores = models.IntegerField()
     prioridade = models.CharField(max_length=50)
@@ -44,6 +45,13 @@ class LocalVotacao(models.Model):
         choices=STATUS_FISCALIZACAO,
         default='Não Fiscalizado',
     )
+
+    def clean(self):
+        if self.eleitores < 0:
+            raise ValidationError('O número de eleitores não pode ser negativo.')
+
+    def is_active(self):
+        return self.local_votacao == 'Ativo'
 
     def __str__(self):
         return f'{self.nome_local} - {self.bairro}'

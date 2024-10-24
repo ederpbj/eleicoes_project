@@ -4,11 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="892e28bc-0f11-48de-ad62-056cd5ddc6f4" name="Changes" comment="" />
+    <list default="true" id="892e28bc-0f11-48de-ad62-056cd5ddc6f4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/core/importar_dados/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/importar_dados/import_data-google.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/importar_dados/import_data-head.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/import_data-csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/importar_dados/import_data-csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/import_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/import_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/models.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -41,22 +58,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.admin_gera_autom.executor": "Run",
-    "Python.import_data.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "base-nova",
-    "last_opened_file_path": "/Users/user/dev/Python/Django/eleicoes_project/core"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.admin_gera_autom.executor&quot;: &quot;Run&quot;,
+    &quot;Python.import_data.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;base-nova&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/user/dev/Python/Django/eleicoes_project/core/importar_dados&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/core/importar_dados" />
       <recent name="$PROJECT_DIR$/core" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/core/arquivo" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/core/importar_dados" />
       <recent name="$PROJECT_DIR$/core" />
     </key>
   </component>
