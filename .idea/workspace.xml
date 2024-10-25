@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="892e28bc-0f11-48de-ad62-056cd5ddc6f4" name="Changes" comment="" />
+    <list default="true" id="892e28bc-0f11-48de-ad62-056cd5ddc6f4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/core/dash_apps/finished/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/dash_apps/finished/dashboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/core/templates/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eleicoes/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/eleicoes/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eleicoes/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/eleicoes/urls.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

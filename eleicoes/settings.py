@@ -34,12 +34,15 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
+    "django.contrib.staticfiles",  # Certifique-se de que aparece apenas uma vez
 
     'core',           # Sua aplicação
     'bootstrap4',     # Pacote Bootstrap
     'crispy_forms',
     'crispy_bootstrap4',
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
+    'dpd_static_support',  # Suporte para arquivos estáticos de Dash, apenas uma vez
+
 ]
 
 MIDDLEWARE = [

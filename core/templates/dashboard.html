@@ -1,3 +1,5 @@
+{% load plotly_dash %}  <!-- Carregar as tags do Plotly Dash -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,7 +60,7 @@
         </div>
         <div class="grafico">
             <h2>Locais de Votação por CIA</h2>
-            {{ graph_locais_votacao_cia|safe }}
+            {% plotly_dash name="interactive_dashboard" %}
         </div>
     </div>
 </body>
