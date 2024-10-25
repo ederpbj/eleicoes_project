@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+
 class LocalVotacao(models.Model):
     LOCAL_VOTACAO_CHOICES = [
         ('Ativo', 'Ativo'),
@@ -46,7 +47,7 @@ class LocalVotacao(models.Model):
         default='Não Fiscalizado',
     )
 
-
+    falta_militar = models.IntegerField(default=0)  # Adiciona o campo com valor padrão 0
 
     def clean(self):
         if self.eleitores is not None and self.eleitores < 0:

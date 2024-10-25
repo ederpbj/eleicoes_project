@@ -34,6 +34,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
         'local_votacao',
         'local_urnas',
         'fiscalizacao',
+        'falta_militar',
     )
 
     # Filtros laterais para facilitar a navegação pelos registros
@@ -46,7 +47,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
     ordering = ('cod',)
 
     # Campos editáveis diretamente na visualização da lista
-    list_editable = ('local_urnas', 'fiscalizacao', 'local_votacao')
+    list_editable = ('local_urnas', 'fiscalizacao', 'local_votacao', 'falta_militar')
 
     # Número de registros exibidos por página
     list_per_page = 20
@@ -69,7 +70,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
             headers = [
                 'cod', 'cia', 'zona', 'nome_local', 'endereco', 'bairro',
                 'secoes', 'data_instalacao', 'horario', 'eleitores',
-                'prioridade', 'local_votacao', 'local_urnas', 'fiscalizacao'
+                'prioridade', 'local_votacao', 'local_urnas', 'fiscalizacao', 'falta_militar'
             ]
             worksheet.append(headers)
 
@@ -79,7 +80,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
                     local.endereco, local.bairro, local.secoes,
                     local.data_instalacao.strftime("%Y-%m-%d") if local.data_instalacao else "",
                     local.horario, local.eleitores, local.prioridade,
-                    local.local_votacao, local.local_urnas, local.fiscalizacao,
+                    local.local_votacao, local.local_urnas, local.fiscalizacao, local.falta_militar,
                 ]
                 worksheet.append(row)
 
