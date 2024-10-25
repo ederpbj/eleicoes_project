@@ -6,18 +6,18 @@
         .grafico-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between; /* Ajusta o espaço entre os gráficos */
+            justify-content: space-between;
         }
         .grafico {
-            flex: 1 1 48%; /* Ajusta para ocupar 48% da largura */
+            flex: 1 1 48%;
             margin: 10px;
-            max-width: 48%; /* Limita a largura máxima de cada gráfico para 48% */
+            max-width: 48%;
             box-sizing: border-box;
         }
         @media (max-width: 800px) {
             .grafico {
-                flex: 1 1 100%; /* Em telas pequenas, cada gráfico ocupa 100% da largura */
-                max-width: 100%; /* Garantir que a largura máxima seja 100% */
+                flex: 1 1 100%;
+                max-width: 100%;
             }
         }
         .admin-button {
@@ -25,7 +25,7 @@
             top: 20px;
             right: 20px;
             padding: 10px 20px;
-            background-color: #808080;  /* Cor cinza */
+            background-color: #808080;
             color: white;
             text-align: center;
             text-decoration: none;
@@ -40,7 +40,12 @@
     <h1>Dashboard de Locais de Votação</h1>
 
     <!-- Botão para redirecionar à página admin -->
-    <a href="/admin/" class="admin-button" target="_blank">Admin</a> <!-- Botão posicionado no canto superior direito -->
+    <a href="/admin/" class="admin-button" target="_blank">Admin</a>
+
+    <!-- Exibindo o total de faltas militares -->
+    <div>
+        <h2>Total de Faltas Militares: {{ total_faltas_militar }}</h2>
+    </div>
 
     <!-- Container Flexbox para os gráficos -->
     <div class="grafico-container">
@@ -49,16 +54,16 @@
             {{ graph_status_local|safe }}
         </div>
         <div class="grafico">
-            <h2>Fiscalização dos Locais de Votação</h2>
-            {{ graph_status_fiscalizacao|safe }}
-        </div>
-        <div class="grafico">
             <h2>Locais de Votação por OPM</h2>
             {{ graph_locais_votacao_cia|safe }}
         </div>
         <div class="grafico">
             <h2>Status das Urnas</h2>
             {{ graph_status_urnas|safe }}
+        </div>
+        <div class="grafico">
+            <h2>Fiscalização dos Locais de Votação</h2>
+            {{ graph_status_fiscalizacao|safe }}
         </div>
     </div>
 </body>

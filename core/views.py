@@ -88,10 +88,14 @@ def dashboard_view(request):
     fig_locais_votacao_cia.update_layout(height=350)  # Reduzir altura do gráfico
     graph_locais_votacao_cia = fig_locais_votacao_cia.to_html()
 
+    # Cálculo do total de faltas militares
+    total_faltas_militar = locais.aggregate(total_faltas=Sum('falta_militar'))['total_faltas'] or 0
+
     # Renderizar os gráficos no template
     return render(request, 'dashboard.html', {
         'graph_status_urnas': graph_status_urnas,
         'graph_status_fiscalizacao': graph_status_fiscalizacao,
         'graph_status_local': graph_status_local,
         'graph_locais_votacao_cia': graph_locais_votacao_cia,  # Gráfico de Locais de Votação por CIA
+        'total_faltas_militar': total_faltas_militar,  # Total de faltas militares
     })
