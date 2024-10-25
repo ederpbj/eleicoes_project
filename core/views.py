@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import LocalVotacao
+from .models import LocalVotacao, Ocorrencia
 import plotly.express as px  # Importando a biblioteca Plotly Express para criar gráficos
 from django.db.models import Sum, Count  # Importando métodos de agregação para manipulação de dados
 
@@ -123,6 +123,9 @@ def dashboard_view(request):
     # Cálculo do total de faltas militares
     total_faltas_militar = locais.aggregate(total_faltas=Sum('falta_militar'))['total_faltas'] or 0
 
+    # Cálculo do total de ocorrências (a partir da tabela Ocorrencia)
+    total_ocorrencias_registradas = Ocorrencia.objects.aggregate(total_ocorrencias=Sum('quantidade_conduzidos'))['total_ocorrencias'] or 0
+
     # Renderizar os gráficos no template
     return render(request, 'dashboard.html', {
         'graph_status_urnas': graph_status_urnas,
@@ -130,4 +133,5 @@ def dashboard_view(request):
         'graph_status_local': graph_status_local,
         'graph_locais_votacao_cia': graph_locais_votacao_cia,
         'total_faltas_militar': total_faltas_militar,
+        'total_ocorrencias_registradas': total_ocorrencias_registradas,
     })
