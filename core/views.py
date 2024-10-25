@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import LocalVotacao
-import plotly.express as px
-from django.db.models import Sum, Count
+import plotly.express as px  # Importando a biblioteca Plotly Express para criar gráficos
+from django.db.models import Sum, Count  # Importando métodos de agregação para manipulação de dados
 
 def listar_locais(request):
     locais = LocalVotacao.objects.all()
@@ -22,70 +22,97 @@ def dashboard_view(request):
     # Obtenha os dados do modelo LocalVotacao
     locais = LocalVotacao.objects.all()
 
-    # Contagem do status das urnas
-    status_urnas = locais.values_list('local_urnas', flat=True)
-    status_fiscalizacao = locais.values_list('fiscalizacao', flat=True)
-    status_local = locais.values_list('local_votacao', flat=True)
-
     # Gráfico de Pizza para Status das Urnas
     fig_status_urnas = px.pie(
-        names=status_urnas,
+        names=locais.values_list('local_urnas', flat=True),
         title='Distribuição do Status das Urnas',
-        color_discrete_sequence=['#EEE8AA', '#B0E0E6']  # Cores personalizadas
+        color_discrete_sequence=['#EEE8AA', '#B0E0E6']
     )
-    fig_status_urnas.update_traces(textinfo='label+percent+value', marker=dict(colors=['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A']))  # Forçar cores personalizadas
-    fig_status_urnas.update_layout(height=350)  # Reduzir altura do gráfico
+    fig_status_urnas.update_traces(
+        textinfo='label+percent',
+        textposition='outside',  # Posiciona o texto fora das fatias
+        marker=dict(colors=['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A'])
+    )
+    fig_status_urnas.update_layout(
+        height=400,  # Aumenta o tamanho do gráfico
+        margin=dict(t=110, b=40, l=40, r=40),  # Ajusta as margens
+        title={'font': {'size': 24}},
+        font=dict(size=18),
+        legend=dict(font=dict(size=16))
+    )
     graph_status_urnas = fig_status_urnas.to_html()
 
     # Gráfico de Pizza para Fiscalização
     fig_status_fiscalizacao = px.pie(
-        names=status_fiscalizacao,
+        names=locais.values_list('fiscalizacao', flat=True),
         title='Distribuição do Status de Fiscalização',
-        color_discrete_sequence=['#EEE8AA', '#B0E0E6']  # Cores personalizadas
+        color_discrete_sequence=['#EEE8AA', '#B0E0E6']
     )
-    fig_status_fiscalizacao.update_traces(textinfo='label+percent+value', marker=dict(colors=['#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52']))  # Forçar cores personalizadas
-    fig_status_fiscalizacao.update_layout(height=350)  # Reduzir altura do gráfico
+    fig_status_fiscalizacao.update_traces(
+        textinfo='label+percent',
+        textposition='outside',
+        marker=dict(colors=['#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'])
+    )
+    fig_status_fiscalizacao.update_layout(
+        height=400,
+        margin=dict(t=110, b=40, l=40, r=40),
+        title={'font': {'size': 24}},
+        font=dict(size=18),
+        legend=dict(font=dict(size=16))
+    )
     graph_status_fiscalizacao = fig_status_fiscalizacao.to_html()
 
-    # Gráfico de Pizza para Local de votação
+    # Gráfico de Pizza para Status de Locais
     fig_status_local = px.pie(
-        names=status_local,
+        names=locais.values_list('local_votacao', flat=True),
         title='Distribuição do Status de Locais',
-        color_discrete_sequence=['#EEE8AA', '#B0E0E6']  # Cores personalizadas
+        color_discrete_sequence=['#EEE8AA', '#B0E0E6']
     )
-    fig_status_local.update_traces(textinfo='label+percent+value', marker=dict(colors=['#FF4500', '#B0E0E6']))  # Forçar cores personalizadas
-    fig_status_local.update_layout(height=350)  # Reduzir altura do gráfico
+    fig_status_local.update_traces(
+        textinfo='label+percent',
+        textposition='outside',  # Posiciona o texto fora das fatias
+        marker=dict(colors=['#FF4500', '#B0E0E6'])
+    )
+    fig_status_local.update_layout(
+        height=400,
+        margin=dict(t=110, b=40, l=40, r=40),
+        title={'font': {'size': 24}},
+        font=dict(size=18),
+        legend=dict(font=dict(size=16))
+    )
     graph_status_local = fig_status_local.to_html()
 
     # Agrupando locais de votação por CIA e contando
     locais_por_cia = (
         locais
-        .values('cia')  # Agrupar por CIA
-        .annotate(total_locais=Count('cia'))  # Contar o número de locais de votação por CIA
-        .order_by('-total_locais')  # Ordenar em ordem decrescente
+        .values('cia')
+        .annotate(total_locais=Count('cia'))
+        .order_by('-total_locais')
     )
 
     # Extraindo os dados para o gráfico
     cias = [item['cia'] for item in locais_por_cia]
     locais_votacao = [item['total_locais'] for item in locais_por_cia]
 
-    # Gráfico de Pizza para Locais de Votação por CIA
+    # Gráfico de Pizza para Locais de Votação por OPM
     fig_locais_votacao_cia = px.pie(
         names=cias,
         values=locais_votacao,
         title='Distribuição de Locais de Votação por OPM',
-        color_discrete_sequence=['#E74C3C', '#3498DB','#9B59B6', '#2ECC71', '#F1C40F']  # Cores personalizadas
+        color_discrete_sequence=['#E74C3C', '#3498DB','#9B59B6', '#2ECC71', '#F1C40F']
     )
-
-    # Atualizando as cores para garantir a mudança no BEPTUR (a terceira fatia)
     fig_locais_votacao_cia.update_traces(
-        textinfo='label+percent+value',
-        marker=dict(colors=['#FF4500', '#B0E0E6', '#90EE90'])  # Definindo cores: 1º BPM, 5º BPM, BEPTUR
+        textinfo='label+percent',
+        textposition='outside',  # Posiciona o texto fora das fatias
+        marker=dict(colors=['#FF4500', '#B0E0E6', '#90EE90'])
     )
-
-    # Configurando o layout do gráfico
-    fig_locais_votacao_cia.update_traces(textinfo='label+percent+value', marker=dict(colors=['#FF4500', '#B0E0E6','#9B59B6']))  # Forçar cores personalizadas
-    fig_locais_votacao_cia.update_layout(height=350)  # Reduzir altura do gráfico
+    fig_locais_votacao_cia.update_layout(
+        height=400,
+        margin=dict(t=110, b=40, l=40, r=40),
+        title={'font': {'size': 24}},
+        font=dict(size=18),
+        legend=dict(font=dict(size=16)),
+    )
     graph_locais_votacao_cia = fig_locais_votacao_cia.to_html()
 
     # Cálculo do total de faltas militares
@@ -96,6 +123,6 @@ def dashboard_view(request):
         'graph_status_urnas': graph_status_urnas,
         'graph_status_fiscalizacao': graph_status_fiscalizacao,
         'graph_status_local': graph_status_local,
-        'graph_locais_votacao_cia': graph_locais_votacao_cia,  # Gráfico de Locais de Votação por CIA
-        'total_faltas_militar': total_faltas_militar,  # Total de faltas militares
+        'graph_locais_votacao_cia': graph_locais_votacao_cia,
+        'total_faltas_militar': total_faltas_militar,
     })
