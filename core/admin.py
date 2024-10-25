@@ -9,12 +9,19 @@ from django.shortcuts import redirect
 from pathlib import Path
 from django.http import HttpResponse
 
+from django.contrib import admin
+from .models import Ocorrencia
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Personalizar o título e os textos do Django Admin
 admin.site.site_header = _("Administração das Eleições")
 admin.site.site_title = _("Painel Administrativo das Eleições")
 admin.site.index_title = _("Bem-vindo ao Painel de Controle")
+
+
+
+admin.site.register(Ocorrencia)
 
 @admin.register(LocalVotacao)
 class LocalVotacaoAdmin(admin.ModelAdmin):
