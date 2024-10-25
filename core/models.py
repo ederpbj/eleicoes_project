@@ -22,6 +22,7 @@ class LocalVotacao(models.Model):
 
     cod = models.IntegerField(unique=True)  # Define o campo cod como único
     cia = models.CharField(max_length=100)
+    opm = models.CharField(max_length=100, null=True)  # Novo campo com valor inicial nulo
     zona = models.IntegerField()
     nome_local = models.CharField(max_length=255)
     endereco = models.CharField(max_length=255)
