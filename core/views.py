@@ -30,7 +30,7 @@ def dashboard_view(request):
     )
     fig_status_urnas.update_traces(
         textinfo='label+percent',
-        texttemplate='%{label}: %{percent} <b>%{value}</b>',  # Formatação com valor em negrito
+        texttemplate='%{label}: %{percent} <b>%{value}</b>',
         textposition='outside',
         marker=dict(colors=['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A'])
     )
@@ -97,23 +97,24 @@ def dashboard_view(request):
     cias = [item['cia'] for item in locais_por_cia]
     locais_votacao = [item['total_locais'] for item in locais_por_cia]
 
-    # Gráfico de Pizza para Locais de Votação por OPM
-    fig_locais_votacao_cia = px.pie(
-        names=cias,
-        values=locais_votacao,
+    # Gráfico de Barras Horizontal para Locais de Votação por OPM
+    fig_locais_votacao_cia = px.bar(
+        x=locais_votacao,
+        y=cias,
+        orientation='h',  # Orientação horizontal
         title='Distribuição de Locais de Votação por OPM',
-        color_discrete_sequence=['#E74C3C', '#3498DB', '#9B59B6', '#2ECC71', '#F1C40F']
+        category_orders={"y": cias}  # Ordem decrescente das OPMs
     )
     fig_locais_votacao_cia.update_traces(
-        textinfo='label+percent',
-        texttemplate='%{label}: %{percent} <b>%{value}</b>',
-        textposition='outside',
-        marker=dict(colors=['#FF4500', '#B0E0E6', '#90EE90'])
+        texttemplate='%{x}',  # Exibe o valor total em cada barra
+        textposition='outside'  # Coloca o texto do lado de fora da barra
     )
     fig_locais_votacao_cia.update_layout(
         height=400,
         margin=dict(t=110, b=40, l=40, r=40),
         title={'font': {'size': 24}},
+        xaxis_title="Quantidade de Locais",
+        yaxis_title="OPM",
         font=dict(size=18),
         legend=dict(font=dict(size=16))
     )
