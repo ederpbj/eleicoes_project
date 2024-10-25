@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
-
 class LocalVotacao(models.Model):
     LOCAL_VOTACAO_CHOICES = [
         ('Ativo', 'Ativo'),
@@ -59,3 +58,12 @@ class LocalVotacao(models.Model):
 
     def __str__(self):
         return f'{self.nome_local} - {self.bairro}'
+
+
+class Ocorrencia(models.Model):
+    codigo_ocorrencia = models.CharField('Código da Ocorrência', max_length=50, unique=True)
+    quantidade_conduzidos = models.IntegerField('Quantidade de Conduzidos')
+    opm = models.CharField('OPM', max_length=100)
+
+    def __str__(self):
+        return f'Ocorrência {self.codigo_ocorrencia}'
