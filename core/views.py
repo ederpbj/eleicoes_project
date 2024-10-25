@@ -73,10 +73,18 @@ def dashboard_view(request):
     fig_locais_votacao_cia = px.pie(
         names=cias,
         values=locais_votacao,
-        title='Distribuição de Locais de Votação por CIA',
-        color_discrete_sequence=['#E74C3C', '#3498DB', '#2ECC71', '#9B59B6', '#F1C40F']  # Cores personalizadas
+        title='Distribuição de Locais de Votação por OPM',
+        color_discrete_sequence=['#E74C3C', '#3498DB','#9B59B6', '#2ECC71', '#F1C40F']  # Cores personalizadas
     )
-    fig_locais_votacao_cia.update_traces(textinfo='label+percent+value', marker=dict(colors=['#FF4500', '#B0E0E6']))  # Forçar cores personalizadas
+
+    # Atualizando as cores para garantir a mudança no BEPTUR (a terceira fatia)
+    fig_locais_votacao_cia.update_traces(
+        textinfo='label+percent+value',
+        marker=dict(colors=['#FF4500', '#B0E0E6', '#90EE90'])  # Definindo cores: 1º BPM, 5º BPM, BEPTUR
+    )
+
+    # Configurando o layout do gráfico
+    fig_locais_votacao_cia.update_traces(textinfo='label+percent+value', marker=dict(colors=['#FF4500', '#B0E0E6','#9B59B6']))  # Forçar cores personalizadas
     fig_locais_votacao_cia.update_layout(height=350)  # Reduzir altura do gráfico
     graph_locais_votacao_cia = fig_locais_votacao_cia.to_html()
 

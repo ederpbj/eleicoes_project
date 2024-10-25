@@ -48,17 +48,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.admin_gera_autom.executor": "Run",
-    "Python.import_data-google.executor": "Run",
-    "Python.import_data-head.executor": "Run",
-    "Python.import_data.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "base-nova-funcionando",
-    "last_opened_file_path": "/Users/user/dev/Python/Django/eleicoes_project/core/importar_dados"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.admin_gera_autom.executor&quot;: &quot;Run&quot;,
+    &quot;Python.import_data-google.executor&quot;: &quot;Run&quot;,
+    &quot;Python.import_data-head.executor&quot;: &quot;Run&quot;,
+    &quot;Python.import_data.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;base-nova-funcionando&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/user/dev/Python/Django/eleicoes_project/core/importar_dados&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/core/importar_dados" />
