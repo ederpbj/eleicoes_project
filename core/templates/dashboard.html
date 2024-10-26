@@ -40,18 +40,20 @@
 </head>
 <body>
     <h1>Dashboard de Locais de Votação</h1>
-    <form method="get" action="" style="margin-top: 20px; display: flex; justify-content: center; align-items: center; gap: 10px;">
-        <label for="cia" style="font-size: 16px; margin-right: 10px;">Filtrar por OPM:</label>
-        <select name="cia" id="cia" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px;">
-            <option value="">Todas</option>
+    <form method="get" action="" style="margin-top: 20px; text-align: center;">
+        <label for="cia" style="font-size: 16px;">Filtrar por OPM:</label>
+        <div style="display: inline-flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+            <button type="submit" name="cia" value="" style="padding: 8px 16px; background-color: {% if not selected_cia %}#808080{% else %}#ccc{% endif %}; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+                Todas
+            </button>
             {% for cia in cia_list %}
-                <option value="{{ cia }}" {% if cia == selected_cia %}selected{% endif %}>{{ cia }}</option>
+                <button type="submit" name="cia" value="{{ cia }}" style="padding: 8px 16px; background-color: {% if selected_cia == cia %}#808080{% else %}#ccc{% endif %}; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+                    {{ cia }}
+                </button>
             {% endfor %}
-        </select>
-        <button type="submit" style="padding: 8px 16px; background-color: #808080; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
-            Filtrar
-        </button>
+        </div>
     </form>
+
 
 
 
