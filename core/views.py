@@ -128,7 +128,7 @@ def dashboard_view(request):
         x=locais_votacao,
         y=cias,
         orientation='h',
-        title='Distribuição de Locais de Votação por CIA',
+        title='Distribuição de Locais de Votação por OPM',
         category_orders={"y": cias}
     )
     fig_locais_votacao_cia.update_traces(
