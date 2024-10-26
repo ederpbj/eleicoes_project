@@ -19,22 +19,23 @@ def editar_local(request, id):
 
 # GERA GRÁFICOS
 def dashboard_view(request):
-    # Obtenha os dados do modelo LocalVotacao
-    locais = LocalVotacao.objects.all()
+    # Obtenha o valor do filtro CIA do parâmetro GET
+    selected_cia = request.GET.get('cia')
 
-    # Mapeamento de cores para Status dos Locais
-    status_locais_colors = {
-        'Ativo': '#EEE8AA',
-        'Inativo': '#636EFA',
-    }
+    # Obtenha os locais, aplicando o filtro por CIA se selecionado
+    if selected_cia:
+        locais = LocalVotacao.objects.filter(cia=selected_cia)
+    else:
+        locais = LocalVotacao.objects.all()
 
-    # Mapeamento de cores para Status das Urnas
+    # Lista de todas as CIAs para popular o dropdown
+    cia_list = LocalVotacao.objects.values_list('cia', flat=True).distinct()
+
+    # Mapeamento de cores para Status das Urnas e criação dos gráficos
     status_urnas_colors = {
         'Instalada': '#EEE8AA',
         'Não instalada': '#636EFA',
     }
-
-    # Gráfico de Pizza para Status das Urnas
     urna_labels = locais.values_list('local_urnas', flat=True)
     urna_colors = [status_urnas_colors.get(label, '#808080') for label in urna_labels]
 
@@ -57,14 +58,11 @@ def dashboard_view(request):
     )
     graph_status_urnas = fig_status_urnas.to_html()
 
-    # Mapeamento de cores para Status de Fiscalização
+    # Gráfico de Pizza para Fiscalização
     fiscalizacao_colors = {
         'Fiscalizado': '#EEE8AA',
         'Não Fiscalizado': '#636EFA',
-
     }
-
-    # Gráfico de Pizza para Fiscalização
     fiscalizacao_labels = locais.values_list('fiscalizacao', flat=True)
     fiscalizacao_colors = [fiscalizacao_colors.get(label, '#808080') for label in fiscalizacao_labels]
 
@@ -87,13 +85,11 @@ def dashboard_view(request):
     )
     graph_status_fiscalizacao = fig_status_fiscalizacao.to_html()
 
-    # Mapeamento de cores para Status de Locais
+    # Gráfico de Pizza para Status de Locais
     status_local_colors = {
         'Ativo': '#EEE8AA',
         'Inativo': '#636EFA'
     }
-
-    # Gráfico de Pizza para Status de Locais
     local_labels = locais.values_list('local_votacao', flat=True)
     local_colors = [status_local_colors.get(label, '#808080') for label in local_labels]
 
@@ -116,7 +112,6 @@ def dashboard_view(request):
     )
     graph_status_local = fig_status_local.to_html()
 
-    # Resto do código permanece igual...
     # Agrupando locais de votação por CIA e contando
     locais_por_cia = (
         locais
@@ -133,7 +128,7 @@ def dashboard_view(request):
         x=locais_votacao,
         y=cias,
         orientation='h',
-        title='Distribuição de Locais de Votação por OPM',
+        title='Distribuição de Locais de Votação por CIA',
         category_orders={"y": cias}
     )
     fig_locais_votacao_cia.update_traces(
@@ -154,8 +149,7 @@ def dashboard_view(request):
     total_faltas_militar = locais.aggregate(total_faltas=Sum('falta_militar'))['total_faltas'] or 0
 
     # Cálculo do total de ocorrências
-    total_ocorrencias_registradas = Ocorrencia.objects.aggregate(total_ocorrencias=Sum('quantidade_conduzidos'))[
-                                        'total_ocorrencias'] or 0
+    total_ocorrencias_registradas = Ocorrencia.objects.aggregate(total_ocorrencias=Sum('quantidade_conduzidos'))['total_ocorrencias'] or 0
 
     # Renderizar o template com todos os gráficos e variáveis
     return render(request, 'dashboard.html', {
@@ -165,4 +159,6 @@ def dashboard_view(request):
         'graph_locais_votacao_cia': graph_locais_votacao_cia,
         'total_faltas_militar': total_faltas_militar,
         'total_ocorrencias_registradas': total_ocorrencias_registradas,
+        'cia_list': cia_list,
+        'selected_cia': selected_cia,
     })
