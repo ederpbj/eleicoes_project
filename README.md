@@ -329,7 +329,10 @@ SET datestyle = 'MDY'; #aceitar data
 
 pip install plotly
 
+# dump
+pg_dump -U postgres -h vitally-true-skimmer.data-1.use1.tembo.io -p 5432 -F c postgres > /Users/user/Desktop/temp/dump.dump
 
+pg_restore -U postgres -d eleicoes2024 /Users/user/Desktop/temp/dump.dump
 ```
 [docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)
 [Appliku hospedagem](https://app.appliku.com/auth/sign-up)
