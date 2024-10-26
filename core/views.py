@@ -22,17 +22,31 @@ def dashboard_view(request):
     # Obtenha os dados do modelo LocalVotacao
     locais = LocalVotacao.objects.all()
 
+    # Mapeamento de cores para Status dos Locais
+    status_locais_colors = {
+        'Ativo': '#EEE8AA',
+        'Inativo': '#636EFA',
+    }
+
+    # Mapeamento de cores para Status das Urnas
+    status_urnas_colors = {
+        'Instalada': '#EEE8AA',
+        'Não instalada': '#636EFA',
+    }
+
     # Gráfico de Pizza para Status das Urnas
+    urna_labels = locais.values_list('local_urnas', flat=True)
+    urna_colors = [status_urnas_colors.get(label, '#808080') for label in urna_labels]
+
     fig_status_urnas = px.pie(
-        names=locais.values_list('local_urnas', flat=True),
+        names=urna_labels,
         title='Distribuição do Status das Urnas',
-        color_discrete_sequence=['#EEE8AA', '#B0E0E6']
     )
     fig_status_urnas.update_traces(
         textinfo='label+percent',
         texttemplate='%{label}: %{percent} <b>%{value}</b>',
         textposition='outside',
-        marker=dict(colors=['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A'])
+        marker=dict(colors=urna_colors)
     )
     fig_status_urnas.update_layout(
         height=400,
@@ -43,17 +57,26 @@ def dashboard_view(request):
     )
     graph_status_urnas = fig_status_urnas.to_html()
 
+    # Mapeamento de cores para Status de Fiscalização
+    fiscalizacao_colors = {
+        'Fiscalizado': '#EEE8AA',
+        'Não Fiscalizado': '#636EFA',
+
+    }
+
     # Gráfico de Pizza para Fiscalização
+    fiscalizacao_labels = locais.values_list('fiscalizacao', flat=True)
+    fiscalizacao_colors = [fiscalizacao_colors.get(label, '#808080') for label in fiscalizacao_labels]
+
     fig_status_fiscalizacao = px.pie(
-        names=locais.values_list('fiscalizacao', flat=True),
+        names=fiscalizacao_labels,
         title='Distribuição do Status de Fiscalização',
-        color_discrete_sequence=['#EEE8AA', '#B0E0E6']
     )
     fig_status_fiscalizacao.update_traces(
         textinfo='label+percent',
         texttemplate='%{label}: %{percent} <b>%{value}</b>',
         textposition='outside',
-        marker=dict(colors=['#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'])
+        marker=dict(colors=fiscalizacao_colors)
     )
     fig_status_fiscalizacao.update_layout(
         height=400,
@@ -64,17 +87,25 @@ def dashboard_view(request):
     )
     graph_status_fiscalizacao = fig_status_fiscalizacao.to_html()
 
+    # Mapeamento de cores para Status de Locais
+    status_local_colors = {
+        'Ativo': '#EEE8AA',
+        'Inativo': '#636EFA'
+    }
+
     # Gráfico de Pizza para Status de Locais
+    local_labels = locais.values_list('local_votacao', flat=True)
+    local_colors = [status_local_colors.get(label, '#808080') for label in local_labels]
+
     fig_status_local = px.pie(
-        names=locais.values_list('local_votacao', flat=True),
+        names=local_labels,
         title='Distribuição do Status de Locais',
-        color_discrete_sequence=['#EEE8AA', '#B0E0E6']
     )
     fig_status_local.update_traces(
         textinfo='label+percent',
         texttemplate='%{label}: %{percent} <b>%{value}</b>',
         textposition='outside',
-        marker=dict(colors=['#FF4500', '#B0E0E6'])
+        marker=dict(colors=local_colors)
     )
     fig_status_local.update_layout(
         height=400,
@@ -85,6 +116,7 @@ def dashboard_view(request):
     )
     graph_status_local = fig_status_local.to_html()
 
+    # Resto do código permanece igual...
     # Agrupando locais de votação por CIA e contando
     locais_por_cia = (
         locais
@@ -93,40 +125,39 @@ def dashboard_view(request):
         .order_by('-total_locais')
     )
 
-    # Extraindo os dados para o gráfico
     cias = [item['cia'] for item in locais_por_cia]
     locais_votacao = [item['total_locais'] for item in locais_por_cia]
 
-    # Gráfico de Barras Horizontal para Locais de Votação por OPM
+    # Gráfico de Barras Horizontal para Locais de Votação por CIA
     fig_locais_votacao_cia = px.bar(
         x=locais_votacao,
         y=cias,
-        orientation='h',  # Orientação horizontal
+        orientation='h',
         title='Distribuição de Locais de Votação por OPM',
-        category_orders={"y": cias}  # Ordem decrescente das OPMs
+        category_orders={"y": cias}
     )
     fig_locais_votacao_cia.update_traces(
-        texttemplate='%{x}',  # Exibe o valor total em cada barra
-        textposition='outside'  # Coloca o texto do lado de fora da barra
+        texttemplate='%{x}',
+        textposition='outside'
     )
     fig_locais_votacao_cia.update_layout(
         height=400,
         margin=dict(t=110, b=40, l=40, r=40),
         title={'font': {'size': 24}},
         xaxis_title="Quantidade de Locais",
-        yaxis_title="OPM",
-        font=dict(size=18),
-        legend=dict(font=dict(size=16))
+        yaxis_title="CIA",
+        font=dict(size=18)
     )
     graph_locais_votacao_cia = fig_locais_votacao_cia.to_html()
 
     # Cálculo do total de faltas militares
     total_faltas_militar = locais.aggregate(total_faltas=Sum('falta_militar'))['total_faltas'] or 0
 
-    # Cálculo do total de ocorrências (a partir da tabela Ocorrencia)
-    total_ocorrencias_registradas = Ocorrencia.objects.aggregate(total_ocorrencias=Sum('quantidade_conduzidos'))['total_ocorrencias'] or 0
+    # Cálculo do total de ocorrências
+    total_ocorrencias_registradas = Ocorrencia.objects.aggregate(total_ocorrencias=Sum('quantidade_conduzidos'))[
+                                        'total_ocorrencias'] or 0
 
-    # Renderizar os gráficos no template
+    # Renderizar o template com todos os gráficos e variáveis
     return render(request, 'dashboard.html', {
         'graph_status_urnas': graph_status_urnas,
         'graph_status_fiscalizacao': graph_status_fiscalizacao,
