@@ -105,6 +105,7 @@ def dashboard_view(request):
     )
     fig_status_local.update_layout(
         height=400,
+        width=900,
         margin=dict(t=110, b=40, l=40, r=40),
         title={'font': {'size': 24}},
         font=dict(size=18),
