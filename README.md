@@ -1,6 +1,6 @@
 # Eleicoes
 
-```Python
+```pycon
 # 0. gitignore
 git rm -r --cached .
 git add .

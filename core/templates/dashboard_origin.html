@@ -12,9 +12,6 @@
             margin: 10px;
             max-width: 48%;
             box-sizing: border-box;
-
-            max-width: 1000px; /* ajuste conforme necessário */
-            margin: 0 auto;
         }
         @media (max-width: 800px) {
             .grafico {
@@ -58,6 +55,9 @@
     </form>
 
 
+
+
+
     <!-- Botão para redirecionar à página admin -->
     <a href="/admin/" class="admin-button" target="_blank">Admin</a>
 
@@ -83,8 +83,6 @@
             <h1>Status de Locais</h1>
             {{ graph_status_local|safe }}
         </div>
-
-        <!-- Remover temporariamente
         <div class="grafico">
             <h1>Locais de Votação por OPM</h1>
             {{ graph_locais_votacao_cia|safe }}
@@ -97,7 +95,5 @@
             <h1>Fiscalização dos Locais de Votação</h1>
             {{ graph_status_fiscalizacao|safe }}
         </div>
-
-        -->
     </div>
 </body>
