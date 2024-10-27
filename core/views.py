@@ -19,6 +19,10 @@ def editar_local(request, id):
 
 # GERA GRÁFICOS
 def dashboard_view(request):
+
+    # obter dados das ocorrencias
+    ocorrencias = Ocorrencia.objects.all()
+
     # Obtenha o valor do filtro CIA do parâmetro GET
     selected_cia = request.GET.get('cia')
 
@@ -162,4 +166,5 @@ def dashboard_view(request):
         'total_ocorrencias_registradas': total_ocorrencias_registradas,
         'cia_list': cia_list,
         'selected_cia': selected_cia,
+        'ocorrencias': ocorrencias
     })
