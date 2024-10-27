@@ -89,7 +89,7 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT', '5432'),  # Porta padrão 5432
         'CONN_MAX_AGE': 600,  # Mantém a conexão por 10 minutos
         'OPTIONS': {
-            #'sslmode': os.getenv('DB_SSLMODE', 'require'),  # SSL require ou disable
+            'sslmode': os.getenv('DB_SSLMODE', 'require'),  # SSL require ou disable
             'connect_timeout': 10,  # Tempo limite de 10 segundos
         },
     }
