@@ -61,9 +61,15 @@ class LocalVotacao(models.Model):
 
 
 class Ocorrencia(models.Model):
+    OPM_CHOICES = [
+        ('1º BPM', '1º BPM'),
+        ('5º BPM', '5º BPM'),
+        ('BEPTUR', 'BEPTUR'),
+    ]
+
     codigo_ocorrencia = models.CharField('Código da Ocorrência', max_length=50, unique=True)
     quantidade_conduzidos = models.IntegerField('Quantidade de Conduzidos')
-    opm = models.CharField('OPM', max_length=100)
+    opm = models.CharField('OPM', max_length=100,choices=OPM_CHOICES)
     tipo = models.CharField('Tipo', max_length=100, default='')
 
     def save(self, *args, **kwargs):
