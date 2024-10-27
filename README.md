@@ -329,6 +329,37 @@ SET datestyle = 'MDY'; #aceitar data
 
 pip install plotly
 
+# DUMP
+sudo brew services start postgresql@15
+
+# local do arquivo
+find /usr/local -name pg_dump
+
+# local:
+#/usr/local/Cellar/postgresql@15/15.8_2/bin/pg_dump
+
+# Adicionar pg_dump ao PATH:
+export PATH="/usr/local/Cellar/postgresql@15/15.8_2/bin:$PATH"
+# Tornar a mudança permanente
+echo 'export PATH="/usr/local/Cellar/postgresql@15/15.8_2/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+
+# versao
+pg_dump --version
+
+# Outras alternativas
+# executar
+pg_dump -U postgres -h vitally-true-skimmer.data-1.use1.tembo.io -p 5432 -F c postgres > /Users/user/Desktop/temp/dump.dump
+
+# limpar tudo antes
+pg_restore -U postgres -d pleito --clean /Users/user/Desktop/temp/dump.dump
+# se nao der certo, excluir o banco
+# criar novo banco
+createdb -U postgres pleito_novo
+
+# restaurar
+pg_restore -U postgres -d pleito_novo --no-owner --no-acl /Users/user/Desktop/temp/dump.dump
+
 
 ```
 [docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)
