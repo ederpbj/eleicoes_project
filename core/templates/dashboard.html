@@ -58,11 +58,20 @@
         h1 {
             text-align: center; /* Alinha o título ao centro */
         }
+
     </style>
+    <script>
+        // Recarregar a página a cada 60 segundos sem perder os parâmetros de URL
+        setInterval(function() {
+            // Recarregar a página e adicionar um timestamp para evitar cache
+            window.location.reload();
+        }, 10000); // 10 segundos
+    </script>
 </head>
 <body>
     <h1>Dashboard de Locais de Votação</h1>
-    <form method="get" action="" style="margin-top: 20px; text-align: center;">
+
+    <form method="get" action="?" style="margin-top: 20px; text-align: center;">
         <label for="cia" style="font-size: 16px;">Filtrar por OPM:</label>
         <div style="display: inline-flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
             <button type="submit" name="cia" value="" style="padding: 8px 16px; background-color: {% if not selected_cia %}#808080{% else %}#ccc{% endif %}; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
