@@ -64,6 +64,14 @@ class Ocorrencia(models.Model):
     codigo_ocorrencia = models.CharField('Código da Ocorrência', max_length=50, unique=True)
     quantidade_conduzidos = models.IntegerField('Quantidade de Conduzidos')
     opm = models.CharField('OPM', max_length=100)
+    tipo = models.CharField('Tipo', max_length=100, default='')
+
+    def save(self, *args, **kwargs):
+        # Converter para maiúsculas antes de salvar
+        self.codigo_ocorrencia = self.codigo_ocorrencia.upper()
+        self.opm = self.opm.upper()
+        self.tipo = self.tipo.upper()
+        super(Ocorrencia, self).save(*args, **kwargs)
 
     def __str__(self):
         return f'Ocorrência {self.codigo_ocorrencia}'
