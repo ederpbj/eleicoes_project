@@ -29,6 +29,7 @@ def dashboard_view(request):
     # Obtenha os locais, aplicando o filtro por CIA se selecionado
     if selected_cia:
         locais = LocalVotacao.objects.filter(cia=selected_cia)
+        ocorrencias = ocorrencias.filter(opm=selected_cia)
     else:
         locais = LocalVotacao.objects.all()
 
@@ -166,5 +167,5 @@ def dashboard_view(request):
         'total_ocorrencias_registradas': total_ocorrencias_registradas,
         'cia_list': cia_list,
         'selected_cia': selected_cia,
-        'ocorrencias': ocorrencias
+        'ocorrencias': ocorrencias,
     })
