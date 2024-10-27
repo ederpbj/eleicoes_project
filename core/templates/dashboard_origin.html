@@ -12,9 +12,6 @@
             margin: 10px;
             max-width: 48%;
             box-sizing: border-box;
-
-            max-width: 1000px; /* ajuste conforme necessário */
-            margin: 0 auto;
         }
         @media (max-width: 800px) {
             .grafico {
@@ -39,25 +36,6 @@
         .grafico h2 {
             margin-bottom: 20px; /* Adiciona espaço após o subtítulo */
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center; /* Alinha o conteúdo ao centro */
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        h1 {
-            text-align: center; /* Alinha o título ao centro */
-        }
     </style>
 </head>
 <body>
@@ -75,6 +53,9 @@
             {% endfor %}
         </div>
     </form>
+
+
+
 
 
     <!-- Botão para redirecionar à página admin -->
@@ -102,8 +83,6 @@
             <h1>Status de Locais</h1>
             {{ graph_status_local|safe }}
         </div>
-
-        <!-- Remover temporariamente
         <div class="grafico">
             <h1>Locais de Votação por OPM</h1>
             {{ graph_locais_votacao_cia|safe }}
@@ -116,27 +95,5 @@
             <h1>Fiscalização dos Locais de Votação</h1>
             {{ graph_status_fiscalizacao|safe }}
         </div>
-
-        -->
     </div>
-
-    <h1>Ocorrências</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Código da Ocorrência</th>
-                <th>Quantidade de Conduzidos</th>
-                <th>OPM</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ocorrencia in ocorrencias %}
-            <tr>
-                <td>{{ ocorrencia.codigo_ocorrencia }}</td>
-                <td>{{ ocorrencia.quantidade_conduzidos }}</td>
-                <td>{{ ocorrencia.opm }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 </body>

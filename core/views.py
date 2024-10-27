@@ -19,6 +19,10 @@ def editar_local(request, id):
 
 # GERA GRÁFICOS
 def dashboard_view(request):
+
+    # obter dados das ocorrencias
+    ocorrencias = Ocorrencia.objects.all()
+
     # Obtenha o valor do filtro CIA do parâmetro GET
     selected_cia = request.GET.get('cia')
 
@@ -105,6 +109,7 @@ def dashboard_view(request):
     )
     fig_status_local.update_layout(
         height=400,
+        width=900,
         margin=dict(t=110, b=40, l=40, r=40),
         title={'font': {'size': 24}},
         font=dict(size=18),
@@ -149,7 +154,7 @@ def dashboard_view(request):
     total_faltas_militar = locais.aggregate(total_faltas=Sum('falta_militar'))['total_faltas'] or 0
 
     # Cálculo do total de ocorrências
-    total_ocorrencias_registradas = Ocorrencia.objects.aggregate(total_ocorrencias=Sum('quantidade_conduzidos'))['total_ocorrencias'] or 0
+    total_ocorrencias_registradas = Ocorrencia.objects.aggregate(total_ocorrencias=Count('codigo_ocorrencia'))['total_ocorrencias'] or 0
 
     # Renderizar o template com todos os gráficos e variáveis
     return render(request, 'dashboard.html', {
@@ -161,4 +166,5 @@ def dashboard_view(request):
         'total_ocorrencias_registradas': total_ocorrencias_registradas,
         'cia_list': cia_list,
         'selected_cia': selected_cia,
+        'ocorrencias': ocorrencias
     })
