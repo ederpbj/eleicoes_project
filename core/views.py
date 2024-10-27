@@ -150,7 +150,7 @@ def dashboard_view(request):
     total_faltas_militar = locais.aggregate(total_faltas=Sum('falta_militar'))['total_faltas'] or 0
 
     # Cálculo do total de ocorrências
-    total_ocorrencias_registradas = Ocorrencia.objects.aggregate(total_ocorrencias=Sum('quantidade_conduzidos'))['total_ocorrencias'] or 0
+    total_ocorrencias_registradas = Ocorrencia.objects.aggregate(total_ocorrencias=Count('codigo_ocorrencia'))['total_ocorrencias'] or 0
 
     # Renderizar o template com todos os gráficos e variáveis
     return render(request, 'dashboard.html', {
