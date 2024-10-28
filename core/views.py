@@ -24,17 +24,17 @@ def dashboard_view(request):
     ocorrencias = Ocorrencia.objects.all()
 
     # Obtenha o valor do filtro CIA do parâmetro GET
-    selected_cia = request.GET.get('cia')
+    selected_opm = request.GET.get('opm')
 
-    # Obtenha os locais, aplicando o filtro por CIA se selecionado
-    if selected_cia:
-        locais = LocalVotacao.objects.filter(cia=selected_cia)
-        ocorrencias = ocorrencias.filter(opm=selected_cia)
+    # Obtenha os locais, aplicando o filtro por OPM se selecionado
+    if selected_opm:
+        locais = LocalVotacao.objects.filter(opm=selected_opm)
+        ocorrencias = ocorrencias.filter(opm=selected_opm)
     else:
         locais = LocalVotacao.objects.all()
 
     # Lista de todas as CIAs para popular o dropdown
-    cia_list = LocalVotacao.objects.values_list('cia', flat=True).distinct()
+    opm_list = LocalVotacao.objects.values_list('opm', flat=True).distinct()
 
     # Mapeamento de cores para Status das Urnas e criação dos gráficos
     status_urnas_colors = {
@@ -118,38 +118,38 @@ def dashboard_view(request):
     )
     graph_status_local = fig_status_local.to_html()
 
-    # Agrupando locais de votação por CIA e contando
-    locais_por_cia = (
+    # Agrupando locais de votação por OPM e contando
+    locais_por_opm = (
         locais
-        .values('cia')
-        .annotate(total_locais=Count('cia'))
+        .values('opm')
+        .annotate(total_locais=Count('opm'))
         .order_by('-total_locais')
     )
 
-    cias = [item['cia'] for item in locais_por_cia]
-    locais_votacao = [item['total_locais'] for item in locais_por_cia]
+    opms = [item['opm'] for item in locais_por_opm]
+    locais_votacao = [item['total_locais'] for item in locais_por_opm]
 
     # Gráfico de Barras Horizontal para Locais de Votação por CIA
-    fig_locais_votacao_cia = px.bar(
+    fig_locais_votacao_opm = px.bar(
         x=locais_votacao,
-        y=cias,
+        y=opms,
         orientation='h',
         title='Distribuição de Locais de Votação por OPM',
-        category_orders={"y": cias}
+        category_orders={"y": opms}
     )
-    fig_locais_votacao_cia.update_traces(
+    fig_locais_votacao_opm.update_traces(
         texttemplate='%{x}',
         textposition='outside'
     )
-    fig_locais_votacao_cia.update_layout(
+    fig_locais_votacao_opm.update_layout(
         height=400,
         margin=dict(t=110, b=40, l=40, r=40),
         title={'font': {'size': 24}},
         xaxis_title="Quantidade de Locais",
-        yaxis_title="CIA",
+        yaxis_title="OPM",
         font=dict(size=18)
     )
-    graph_locais_votacao_cia = fig_locais_votacao_cia.to_html()
+    graph_locais_votacao_opm = fig_locais_votacao_opm.to_html()
 
     # Cálculo do total de faltas militares
     total_faltas_militar = locais.aggregate(total_faltas=Sum('falta_militar'))['total_faltas'] or 0
@@ -164,10 +164,10 @@ def dashboard_view(request):
         'graph_status_urnas': graph_status_urnas,
         'graph_status_fiscalizacao': graph_status_fiscalizacao,
         'graph_status_local': graph_status_local,
-        'graph_locais_votacao_cia': graph_locais_votacao_cia,
+        'graph_locais_votacao_opm': graph_locais_votacao_opm,
         'total_faltas_militar': total_faltas_militar,
         'total_ocorrencias_registradas': total_ocorrencias_registradas,
-        'cia_list': cia_list,
-        'selected_cia': selected_cia,
+        'opm_list': opm_list,
+        'selected_opm': selected_opm,
         'ocorrencias': ocorrencias,
     })

@@ -330,6 +330,10 @@ SET datestyle = 'MDY'; #aceitar data
 pip install plotly
 
 # DUMP
+# permissoes
+sudo chown -R $(whoami) /usr/local/Cellar/postgresql@15
+sudo chown -R $(whoami) /usr/local/opt/postgresql@15
+
 sudo brew services start postgresql@15
 
 # local do arquivo
@@ -360,6 +364,8 @@ createdb -U postgres pleito_novo
 # restaurar
 pg_restore -U postgres -d pleito_novo --no-owner --no-acl /Users/user/Desktop/temp/dump.dump
 
+# ignora um migrate
+python manage.py migrate core 0007 --fake
 
 ```
 [docs bootstrap](https://getbootstrap.com/docs/5.3/content/tables/)

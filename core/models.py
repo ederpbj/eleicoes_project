@@ -7,6 +7,12 @@ class LocalVotacao(models.Model):
         ('Inativo', 'Inativo'),
     ]
 
+    OPM_CHOICES = [
+        ('1º BPM', '1º BPM'),
+        ('5º BPM', '5º BPM'),
+        ('BEPTUR', 'BEPTUR'),
+    ]
+
     STATUS_URNAS_CHOICES = [
         ('Instalada', 'Instalada'),
         ('Não instalada', 'Não instalada'),
@@ -20,8 +26,7 @@ class LocalVotacao(models.Model):
     ]
 
     cod = models.IntegerField(unique=True)  # Define o campo cod como único
-    cia = models.CharField(max_length=100)
-    opm = models.CharField(max_length=100, null=True)  # Novo campo com valor inicial nulo
+    opm = models.CharField(max_length=100, choices=OPM_CHOICES, null=True,)
     zona = models.IntegerField()
     nome_local = models.CharField(max_length=255)
     endereco = models.CharField(max_length=255)

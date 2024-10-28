@@ -28,7 +28,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
     # Exibir todos os campos do modelo na lista de objetos
     list_display = (
         'cod',
-        'cia',
+        'opm',
         'zona',
         'nome_local',
         'endereco',
@@ -45,10 +45,10 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
     )
 
     # Filtros laterais para facilitar a navegação pelos registros
-    list_filter = ('local_urnas', 'local_votacao', 'cia')
+    list_filter = ('local_urnas', 'local_votacao', 'opm')
 
     # Campos para busca rápida no topo da página de administração
-    search_fields = ('nome_local', 'cia', 'endereco', 'bairro')
+    search_fields = ('nome_local', 'opm', 'endereco', 'bairro')
 
     # Ordenação dos registros por 'cod' em ordem crescente
     ordering = ('cod',)
@@ -75,7 +75,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
             worksheet.title = "Locais de Votação"
 
             headers = [
-                'cod', 'cia', 'zona', 'nome_local', 'endereco', 'bairro',
+                'cod', 'opm', 'zona', 'nome_local', 'endereco', 'bairro',
                 'secoes', 'data_instalacao', 'horario', 'eleitores',
                 'prioridade', 'local_votacao', 'local_urnas', 'fiscalizacao', 'falta_militar'
             ]
@@ -83,7 +83,7 @@ class LocalVotacaoAdmin(admin.ModelAdmin):
 
             for local in queryset:
                 row = [
-                    local.cod, local.cia, local.zona, local.nome_local,
+                    local.cod, local.opm, local.zona, local.nome_local,
                     local.endereco, local.bairro, local.secoes,
                     local.data_instalacao.strftime("%Y-%m-%d") if local.data_instalacao else "",
                     local.horario, local.eleitores, local.prioridade,
