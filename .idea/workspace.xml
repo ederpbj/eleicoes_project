@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="892e28bc-0f11-48de-ad62-056cd5ddc6f4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="892e28bc-0f11-48de-ad62-056cd5ddc6f4" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,6 +68,8 @@
       <recent name="$PROJECT_DIR$/core/arquivo" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/core/migrations" />
+      <recent name="$PROJECT_DIR$/core/arquivo" />
       <recent name="$PROJECT_DIR$/core/importar_dados" />
       <recent name="$PROJECT_DIR$/core" />
     </key>
