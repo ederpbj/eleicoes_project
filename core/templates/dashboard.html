@@ -13,7 +13,7 @@
             max-width: 48%;
             box-sizing: border-box;
 
-            max-width: 1000px; /* ajuste conforme necessário */
+            /*max-width: 1000px;  ajuste conforme necessário */
             margin: 0 auto;
         }
         @media (max-width: 800px) {
@@ -74,16 +74,17 @@
     <form method="get" action="?" style="margin-top: 20px; text-align: center;">
         <label for="opm" style="font-size: 16px;">Filtrar por OPM:</label>
         <div style="display: inline-flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
-            <button type="submit" name="opm" value="" style="padding: 8px 16px; background-color: {% if not selected_cia %}#808080{% else %}#ccc{% endif %}; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+            <button type="submit" name="opm" value="" style="padding: 8px 16px; background-color: {% if not selected_opm %}#808080{% else %}#ccc{% endif %}; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
                 Todas
             </button>
-            {% for cia in cia_list %}
-                <button type="submit" name="opm" value="{{ opm }}" style="padding: 8px 16px; background-color: {% if selected_cia == cia %}#808080{% else %}#ccc{% endif %}; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+            {% for opm in opm_list %}
+                <button type="submit" name="opm" value="{{ opm }}" style="padding: 8px 16px; background-color: {% if selected_opm == opm %}#808080{% else %}#ccc{% endif %}; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
                     {{ opm }}
                 </button>
             {% endfor %}
         </div>
     </form>
+
 
 
     <!-- Botão para redirecionar à página admin -->
